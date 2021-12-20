@@ -30,15 +30,15 @@ static void init_window(void)
 	}
 }
 
-static void init_surface(void)
+static void init_renderer(void)
 {
-	minesweeper.surface = SDL_GetWindowSurface(minesweeper.window);
+	minesweeper.renderer = SDL_CreateRenderer(minesweeper.window, -1, SDL_RENDERER_ACCELERATED);
 
-	if (minesweeper.surface)
-		consoleinfo("We got a window surface");
+	if (minesweeper.renderer)
+		consoleinfo("Renderer created successfully");
 	else
 	{
-		consoleerror("Failed to get a window surface");
+		consoleerror("Renderer was not created");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -52,12 +52,12 @@ void init(void)
 
 	init_SDL();
 	init_window();
-	init_surface();
+	init_renderer();
 }
 
 void free_all(void)
 {
-	SDL_FreeSurface(minesweeper.surface);
+	SDL_DestroyRenderer(minesweeper.renderer);
 	SDL_DestroyWindow(minesweeper.window);
 	SDL_Quit();
 }

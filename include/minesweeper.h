@@ -12,7 +12,7 @@ typedef struct
 	char *title;
 
 	SDL_Window *window;
-	SDL_Surface *surface;
+	SDL_Renderer *renderer;
 
 	int is_open;
 } t_minesweeper;
