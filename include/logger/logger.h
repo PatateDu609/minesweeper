@@ -18,4 +18,7 @@ void consolewarn(char *);
 void consolelog(char *);
 void consoleerror(char *);
 
+void print_mines();
+void print_field();
+
 #endif

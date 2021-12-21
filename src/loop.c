@@ -11,16 +11,25 @@ static void poll(SDL_Event *event)
 	}
 }
 
+static void clear()
+{
+	SDL_Color bg = minesweeper.bg;
+	SDL_SetRenderDrawColor(minesweeper.renderer, bg.r, bg.g, bg.b, bg.a);
+	SDL_RenderClear(minesweeper.renderer);
+}
+
 static void update()
 {
-	SDL_UpdateWindowSurface(minesweeper.window);
+	SDL_RenderPresent(minesweeper.renderer);
 }
 
 void launch(void)
 {
 	SDL_Event e;
+
 	while (minesweeper.is_open)
 	{
+		clear();
 		poll(&e);
 		update();
 	}

@@ -19,7 +19,8 @@ static void init_window(void)
 	minesweeper.window = SDL_CreateWindow(minesweeper.title,
 										  SDL_WINDOWPOS_CENTERED,
 										  SDL_WINDOWPOS_CENTERED,
-										  minesweeper.w, minesweeper.h, 0);
+										  minesweeper.w, minesweeper.h,
+										  SDL_WINDOW_SHOWN);
 
 	if (minesweeper.window)
 		consoleinfo("Window creation succeded");
@@ -49,7 +50,9 @@ void init(void)
 	minesweeper.h = HEIGHT;
 	minesweeper.title = WINDOW_TITLE;
 	minesweeper.is_open = 1;
+	minesweeper.bg = (SDL_Color){.r = 128, .g = 128, .b = 128, .a = 255};
 
+	init_field();
 	init_SDL();
 	init_window();
 	init_renderer();
