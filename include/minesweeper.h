@@ -2,9 +2,30 @@
 #define MINESWEEPER_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #include "defines.h"
 #include "utils.h"
+
+typedef enum tile_types
+{
+	NORMAL,
+	CLICKED_NORMAL,
+	FLAG,
+	QUESTION_MARK,
+	TRIGGERED_QUESTION_MARK,
+	MINE,
+	TRIGGERED_MINE,
+	FALSE_MINE,
+	NUMBER,
+} t_tile_types;
+
+typedef struct
+{
+	SDL_Texture *texture;
+
+	SDL_Rect tiles[8];
+} t_sprites;
 
 typedef struct
 {
@@ -30,6 +51,7 @@ typedef struct
 
 	SDL_Color bg;
 	t_game game;
+	t_sprites sprites;
 } t_minesweeper;
 
 void init(void);

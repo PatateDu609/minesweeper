@@ -23,6 +23,21 @@ static void update()
 	SDL_RenderPresent(minesweeper.renderer);
 }
 
+static void draw(void)
+{
+	SDL_Rect src, dst;
+
+	dst.x = dst.y = 0;
+	dst.w = dst.h = 32;
+
+	for (t_tile_types i = 0; i < 8; i++)
+	{
+		src = minesweeper.sprites.tiles[i];
+		dst.x = i * (dst.w + 16);
+		SDL_RenderCopy(minesweeper.renderer, minesweeper.sprites.texture, &src, &dst);
+	}
+}
+
 void launch(void)
 {
 	SDL_Event e;
@@ -31,6 +46,7 @@ void launch(void)
 	{
 		clear();
 		poll(&e);
+		draw();
 		update();
 	}
 }

@@ -12,6 +12,14 @@ static void init_SDL(void)
 		consoleerror("SDL initialization failed");
 		exit(EXIT_FAILURE);
 	}
+
+	if (IMG_Init(IMG_INIT_PNG))
+		consoleinfo("SDL_image initialization succeded");
+	else
+	{
+		consoleerror("SDL_imaage initialization failed");
+		exit(EXIT_FAILURE);
+	}
 }
 
 static void init_window(void)
@@ -44,6 +52,29 @@ static void init_renderer(void)
 	}
 }
 
+static void init_sprites(void)
+{
+	SDL_Surface *spritesheet = IMG_Load("resources/map.png");
+	if (spritesheet)
+	{
+		char msg[1024];
+		sprintf(msg, "Spritesheet loaded. Dimensions : w = %d, h = %d", spritesheet->w, spritesheet->h);
+		consoleinfo(msg);
+	}
+	else
+		consoleerror("Spritesheet couldn't be loaded");
+
+	minesweeper.sprites.texture = SDL_CreateTextureFromSurface(minesweeper.renderer, spritesheet);
+
+	SDL_Rect rect = {.x = 0, .y = 0, .w = 512, .h = 512};
+	for (t_tile_types i = 0; i < 8; i++)
+	{
+		rect.x = i * rect.w;
+		minesweeper.sprites.tiles[i] = rect;
+	}
+	SDL_FreeSurface(spritesheet);
+}
+
 void init(void)
 {
 	minesweeper.w = WIDTH;
@@ -56,11 +87,13 @@ void init(void)
 	init_SDL();
 	init_window();
 	init_renderer();
+	init_sprites();
 }
 
 void free_all(void)
 {
 	SDL_DestroyRenderer(minesweeper.renderer);
 	SDL_DestroyWindow(minesweeper.window);
+	IMG_Quit();
 	SDL_Quit();
 }

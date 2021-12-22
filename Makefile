@@ -1,10 +1,12 @@
 NAME			:=	minesweeper
 
 LIB				:=	lib
-SDL				:=	$(LIB)/sdl
+SDL				:=	$(LIB)/sdl2
+SDL_IMAGE		:=	$(LIB)/sdl2_image
+SDL_TTF			:=	$(LIB)/sdl2_ttf
 
-LIBS_FOLDERS	:=	-L$(SDL)/lib
-LIBS			:=	-lSDL2
+LIBS_FOLDERS	:=	-L$(SDL)/lib -L$(SDL_IMAGE)/lib -L$(SDL_TTF)/lib
+LIBS			:=	-lSDL2 -lSDL2_image -lSDL2_ttf
 
 SRC_FOLDER		:=	src
 OBJ_FOLDER		:=	obj
