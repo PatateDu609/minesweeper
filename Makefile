@@ -1,17 +1,21 @@
 NAME			:=	minesweeper
 
+MAKE			:=	make
+
 LIB				:=	lib
 SDL				:=	$(LIB)/sdl2
 SDL_IMAGE		:=	$(LIB)/sdl2_image
 SDL_TTF			:=	$(LIB)/sdl2_ttf
+LOGGER			:=	$(LIB)/logger
+LOGGER_NAME		:=	$(LOGGER)/liblogger.a
 
-LIBS_FOLDERS	:=	-L$(SDL)/lib -L$(SDL_IMAGE)/lib -L$(SDL_TTF)/lib
-LIBS			:=	-lSDL2 -lSDL2_image -lSDL2_ttf
+LIBS_FOLDERS	:=	-L$(SDL)/lib -L$(SDL_IMAGE)/lib -L$(SDL_TTF)/lib -L$(LOGGER)
+LIBS			:=	-lSDL2 -lSDL2_image -lSDL2_ttf -llogger
 
 SRC_FOLDER		:=	src
 OBJ_FOLDER		:=	obj
 DEP_FOLDER		:=	dep
-INC_FOLDERS		:=	-Iinclude -I$(SDL)/include
+INC_FOLDERS		:=	-Iinclude -I$(SDL)/include -I$(LOGGER)/include
 EXT				:=	.c
 
 CC				:=	gcc
@@ -29,7 +33,7 @@ $(OBJ_FOLDER)/%.o:	$(SRC_FOLDER)/%$(EXT)
 	$(MKDIR) $(@D)
 	$(CC) $(CFLAGS) -MMD -c $< -o $@
 
-$(NAME):	$(OBJ_FOLDER)/$(NAME)
+$(NAME): 	$(LOGGER_NAME) $(OBJ_FOLDER)/$(NAME)
 
 $(OBJ_FOLDER)/$(NAME):	$(OBJ)
 	$(CC) $^ -o $@ $(LDFLAGS)
@@ -47,4 +51,7 @@ all: $(NAME)
 
 re: fclean all
 
-.PHONY:	fclean all re clean
+$(LOGGER_NAME):
+	$(MAKE) -s -C $(LOGGER)
+
+.PHONY:	fclean all re clean logger

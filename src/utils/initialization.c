@@ -1,23 +1,23 @@
 #include "minesweeper.h"
-#include "logger/logger.h"
+#include <logger.h>
 
 t_minesweeper minesweeper;
 
 static void init_SDL(void)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) >= 0)
-		consoleinfo("SDL initialization succeded");
+		console_info("SDL initialization succeded");
 	else
 	{
-		consoleerror("SDL initialization failed");
+		console_error("SDL initialization failed");
 		exit(EXIT_FAILURE);
 	}
 
 	if (IMG_Init(IMG_INIT_PNG))
-		consoleinfo("SDL_image initialization succeded");
+		console_info("SDL_image initialization succeded");
 	else
 	{
-		consoleerror("SDL_imaage initialization failed");
+		console_error("SDL_imaage initialization failed");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -31,10 +31,10 @@ static void init_window(void)
 										  SDL_WINDOW_SHOWN);
 
 	if (minesweeper.window)
-		consoleinfo("Window creation succeded");
+		console_info("Window creation succeded");
 	else
 	{
-		consoleerror("Window creation failed");
+		console_error("Window creation failed");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -44,10 +44,10 @@ static void init_renderer(void)
 	minesweeper.renderer = SDL_CreateRenderer(minesweeper.window, -1, SDL_RENDERER_ACCELERATED);
 
 	if (minesweeper.renderer)
-		consoleinfo("Renderer created successfully");
+		console_info("Renderer created successfully");
 	else
 	{
-		consoleerror("Renderer was not created");
+		console_error("Renderer was not created");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -59,10 +59,10 @@ static void init_sprites(void)
 	{
 		char msg[1024];
 		sprintf(msg, "Spritesheet loaded. Dimensions : w = %d, h = %d", spritesheet->w, spritesheet->h);
-		consoleinfo(msg);
+		console_info(msg);
 	}
 	else
-		consoleerror("Spritesheet couldn't be loaded");
+		console_error("Spritesheet couldn't be loaded");
 
 	minesweeper.sprites.texture = SDL_CreateTextureFromSurface(minesweeper.renderer, spritesheet);
 

@@ -1,5 +1,5 @@
 #include "minesweeper.h"
-#include "logger/logger.h"
+#include "debug.h"
 #include <unistd.h>
 
 int chk_mine(int *mines, int mine, int i_max)
@@ -67,7 +67,7 @@ char *create_field(t_game *game)
 
 void init_field()
 {
-	consoleinfo("Starting game initialization");
+	console_info("Starting game initialization");
 
 	t_game *game = &minesweeper.game;
 
@@ -78,13 +78,13 @@ void init_field()
 
 	char log[4096];
 	sprintf(log, "seed = %d", game->seed);
-	consoleinfo(log);
+	console_info(log);
 
 	game->mines = init_mines(game);
-	consoleinfo("Mines initialization succeded");
+	console_info("Mines initialization succeded");
 	print_mines();
 
 	game->map = create_field(game);
-	consoleinfo("Field initialization succeeded");
+	console_info("Field initialization succeeded");
 	print_field();
 }
