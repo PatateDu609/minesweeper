@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "minesweeper.h"
 
 char *strjoin(const char *s1, const char *s2)
 {
@@ -67,4 +67,12 @@ static int *__find_sorted(int *arr, int s, int e, int val)
 int *find_sorted(int *arr, int len, int val)
 {
 	return __find_sorted(arr, 0, len - 1, val);
+}
+
+void set_pixel(SDL_Surface *surface, int x, int y, t_color color)
+{
+	Uint32 *target_pixel = (Uint32 *)((Uint8 *)surface->pixels +
+									  y * surface->pitch +
+									  x * surface->format->BytesPerPixel);
+	*target_pixel = color.raw;
 }

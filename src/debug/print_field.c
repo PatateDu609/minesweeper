@@ -18,7 +18,7 @@ void print_mines()
 
 void print_field()
 {
-	char *map = minesweeper.game.map;
+	t_tile *map = minesweeper.game.map;
 	char *line;
 
 	for (int l = 0; l < minesweeper.game.l; l++)
@@ -28,7 +28,7 @@ void print_field()
 		for (int c = 0; c < minesweeper.game.c; c++)
 		{
 			char *tmp = line, nb[14];
-			char val = map[l * minesweeper.game.c + c];
+			char val = map[l * minesweeper.game.c + c].value;
 			if (c + 1 == minesweeper.game.c)
 				sprintf(nb, (val >= 0) ? " %d" : "%d", val);
 			else

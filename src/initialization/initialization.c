@@ -17,7 +17,15 @@ static void init_SDL(void)
 		console_info("SDL_image initialization succeded");
 	else
 	{
-		console_error("SDL_imaage initialization failed");
+		console_error("SDL_image initialization failed");
+		exit(EXIT_FAILURE);
+	}
+
+	if (!TTF_Init())
+		console_info("SDL_TTF initialization succeded");
+	else
+	{
+		console_error("SDL_TTF initialization failed");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -52,46 +60,36 @@ static void init_renderer(void)
 	}
 }
 
-static void init_sprites(void)
+static void init_font(void)
 {
-	SDL_Surface *spritesheet = IMG_Load("resources/map.png");
-	if (spritesheet)
-	{
-		char msg[1024];
-		sprintf(msg, "Spritesheet loaded. Dimensions : w = %d, h = %d", spritesheet->w, spritesheet->h);
-		console_info(msg);
-	}
-	else
-		console_error("Spritesheet couldn't be loaded");
+	minesweeper.font = TTF_OpenFont("resources/Minecraftia-Regular.ttf", 24);
 
-	minesweeper.sprites.texture = SDL_CreateTextureFromSurface(minesweeper.renderer, spritesheet);
-
-	SDL_Rect rect = {.x = 0, .y = 0, .w = 512, .h = 512};
-	for (t_tile_types i = 0; i < 8; i++)
-	{
-		rect.x = i * rect.w;
-		minesweeper.sprites.tiles[i] = rect;
-	}
-	SDL_FreeSurface(spritesheet);
+	if (minesweeper.font)
+		console_info("Font loaded.");
 }
 
 void init(void)
 {
-	minesweeper.w = WIDTH;
-	minesweeper.h = HEIGHT;
+	init_field();
+
+	minesweeper.w = WTILE * minesweeper.game.c + 2 * BORDER_WIDTH;
+	minesweeper.h = HTILE * minesweeper.game.l + HEADER + BORDER_WIDTH * 3;
 	minesweeper.title = WINDOW_TITLE;
 	minesweeper.is_open = 1;
-	minesweeper.bg = (SDL_Color){.r = 128, .g = 128, .b = 128, .a = 255};
+	minesweeper.bg = (SDL_Color){.r = 189, .g = 189, .b = 189, .a = 255};
 
-	init_field();
 	init_SDL();
 	init_window();
 	init_renderer();
 	init_sprites();
+	init_font();
 }
 
 void free_all(void)
 {
+	free(minesweeper.game.mines);
+	free(minesweeper.game.map);
+
 	SDL_DestroyRenderer(minesweeper.renderer);
 	SDL_DestroyWindow(minesweeper.window);
 	IMG_Quit();

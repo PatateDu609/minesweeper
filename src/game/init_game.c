@@ -2,7 +2,7 @@
 #include "debug.h"
 #include <unistd.h>
 
-int chk_mine(int *mines, int mine, int i_max)
+static int chk_mine(int *mines, int mine, int i_max)
 {
 	for (int i = 0; i < i_max; i++)
 		if (mines[i] == mine)
@@ -10,11 +10,10 @@ int chk_mine(int *mines, int mine, int i_max)
 	return 1;
 }
 
-int *init_mines(t_game *game)
+static int *init_mines(t_game *game)
 {
 	int max = game->c * game->l;
 	int *mines = malloc(sizeof(int) * game->m);
-	srand(game->seed);
 
 	for (int i = 0; i < game->m; i++)
 	{
@@ -28,7 +27,7 @@ int *init_mines(t_game *game)
 	return mines;
 }
 
-void inc_around_mine(t_game *game, char *map, int x, int y)
+static void inc_around_mine(t_game *game, t_tile *map, int x, int y)
 {
 	for (int i = -1; i <= 1; i++)
 	{
@@ -43,42 +42,41 @@ void inc_around_mine(t_game *game, char *map, int x, int y)
 			if (0 <= x1 && x1 < game->c &&
 				0 <= y1 && y1 < game->l &&
 				!find_sorted(game->mines, game->m, coord))
-				map[coord]++;
+				map[coord].value++;
 		}
 	}
 }
 
-char *create_field(t_game *game)
+static t_tile *create_field(t_game *game)
 {
 	int max = game->c * game->l;
-	char *map = calloc(max, sizeof(char));
+	t_tile *map = calloc(max, sizeof(t_tile));
 	int *mines = game->mines;
+
+	for (int i = 0; i < max; i++)
+	{
+		map[i].hidden = 1;
+		map[i].state = T_NORMAL;
+	}
 
 	for (int i = 0; i < game->m; i++)
 	{
 		int x = mines[i] % game->c;
 		int y = mines[i] / game->c;
+		int index = y * game->c + x;
+
 		inc_around_mine(game, map, x, y);
-		map[y * game->c + x] = -1;
+		map[index].value = -1;
 	}
 
 	return map;
 }
 
-void init_field()
+void start_game(t_game *game)
 {
-	console_info("Starting game initialization");
-
-	t_game *game = &minesweeper.game;
-
-	game->c = 10;
-	game->l = 8;
-	game->m = 10;
 	game->seed = time(NULL) * getpid();
-
-	char log[4096];
-	sprintf(log, "seed = %d", game->seed);
-	console_info(log);
+	console_log("seed = %d", game->seed);
+	srand(game->seed);
 
 	game->mines = init_mines(game);
 	console_info("Mines initialization succeded");
@@ -87,4 +85,18 @@ void init_field()
 	game->map = create_field(game);
 	console_info("Field initialization succeeded");
 	print_field();
+}
+
+void init_field()
+{
+	console_info("Starting game initialization");
+
+	t_game *game = &minesweeper.game;
+
+	game->c = 9;
+	game->l = 9;
+	game->m = 10;
+	game->mines = NULL;
+	game->map = NULL;
+	game->seed = 0;
 }
