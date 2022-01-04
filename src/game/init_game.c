@@ -85,6 +85,8 @@ void start_game(t_game *game)
 	game->map = create_field(game);
 	console_info("Field initialization succeeded");
 	print_field();
+
+	game->time = time(NULL);
 }
 
 void init_field()
@@ -99,4 +101,6 @@ void init_field()
 	game->mines = NULL;
 	game->map = NULL;
 	game->seed = 0;
+	game->time = 0;
+	game->remaining_mines = game->m;
 }

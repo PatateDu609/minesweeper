@@ -96,6 +96,9 @@ typedef struct
 	uint32_t seed;
 	int *mines;
 	t_tile *map;
+
+	int time;
+	int remaining_mines;
 } t_game;
 
 typedef struct

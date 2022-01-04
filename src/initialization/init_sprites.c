@@ -19,21 +19,21 @@ static void init_borders(void)
 	SDL_FreeSurface(surface);
 }
 
-static void init_map(void)
+static void load_spritesheet(SDL_Texture **target, SDL_Rect *rects, int nb, char *path, int w, int h)
 {
-	SDL_Surface *spritesheet = IMG_Load("resources/map.png");
+	SDL_Surface *spritesheet = IMG_Load(path);
 	if (spritesheet)
-		console_info("Spritesheet loaded");
+		console_info("%s loaded", path);
 	else
-		console_error("Spritesheet couldn't be loaded");
+		console_error("%s couldn't be loaded", path);
 
-	minesweeper.sprites.texture_tiles = SDL_CreateTextureFromSurface(minesweeper.renderer, spritesheet);
+	*target = SDL_CreateTextureFromSurface(minesweeper.renderer, spritesheet);
 
-	SDL_Rect rect = {.x = 0, .y = 0, .w = 512, .h = 512};
-	for (t_tile_types i = 0; i < 8; i++)
+	SDL_Rect rect = {.x = 0, .y = 0, .w = w, .h = h};
+	for (int i = 0; i < nb; i++)
 	{
 		rect.x = i * rect.w;
-		minesweeper.sprites.tiles[i] = rect;
+		rects[i] = rect;
 	}
 	SDL_FreeSurface(spritesheet);
 }
@@ -41,5 +41,13 @@ static void init_map(void)
 void init_sprites(void)
 {
 	init_borders();
-	init_map();
+	load_spritesheet(&minesweeper.sprites.texture_tiles,
+					 minesweeper.sprites.tiles, 8,
+					 "resources/map.png", 512, 512);
+	load_spritesheet(&minesweeper.sprites.texture_emotes,
+					 minesweeper.sprites.emotes, 5,
+					 "resources/emotes.png", 512, 512);
+	load_spritesheet(&minesweeper.sprites.texture_numbers_menu,
+					 minesweeper.sprites.numbers_menu, 10,
+					 "resources/numbers.png", 304, 544);
 }
