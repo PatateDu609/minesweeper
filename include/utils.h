@@ -4,12 +4,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+#include "structs.h"
 
-typedef union u_color t_color;
-
-int *sort(int *arr, int len);
+uint32_t *sort(uint32_t *arr, int len);
 char *strjoin(const char *, const char *);
-int *find_sorted(int *arr, int len, int val);
+uint32_t *find_sorted(uint32_t *arr, int len, uint32_t val);
+t_score_numbers *itoscores(int digits, uint32_t nb);
 void set_pixel(SDL_Surface *surface, int x, int y, t_color color);
 
 #endif

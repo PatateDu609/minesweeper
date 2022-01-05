@@ -3,7 +3,7 @@
 
 void print_mines()
 {
-	int *mines = minesweeper.game.mines;
+	uint32_t *mines = minesweeper.game.mines;
 	char *result = strdup("");
 
 	for (int i = 0; i < minesweeper.game.m; i++)

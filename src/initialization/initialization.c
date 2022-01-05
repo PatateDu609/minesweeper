@@ -77,12 +77,15 @@ void init(void)
 	minesweeper.title = WINDOW_TITLE;
 	minesweeper.is_open = 1;
 	minesweeper.bg = (SDL_Color){.r = 189, .g = 189, .b = 189, .a = 255};
+	minesweeper.clicked = SDL_FALSE;
 
 	init_SDL();
 	init_window();
 	init_renderer();
 	init_sprites();
 	init_font();
+
+	init_state(&minesweeper.game);
 }
 
 void free_all(void)

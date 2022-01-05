@@ -2,7 +2,7 @@
 #include "debug.h"
 #include <unistd.h>
 
-static int chk_mine(int *mines, int mine, int i_max)
+static int chk_mine(uint32_t *mines, uint32_t mine, int i_max)
 {
 	for (int i = 0; i < i_max; i++)
 		if (mines[i] == mine)
@@ -10,14 +10,14 @@ static int chk_mine(int *mines, int mine, int i_max)
 	return 1;
 }
 
-static int *init_mines(t_game *game)
+static uint32_t *init_mines(t_game *game)
 {
 	int max = game->c * game->l;
-	int *mines = malloc(sizeof(int) * game->m);
+	uint32_t *mines = malloc(sizeof(uint32_t) * game->m);
 
 	for (int i = 0; i < game->m; i++)
 	{
-		int mine;
+		uint32_t mine;
 		do
 			mine = rand() % max;
 		while (!chk_mine(mines, mine, i));
@@ -51,7 +51,7 @@ static t_tile *create_field(t_game *game)
 {
 	int max = game->c * game->l;
 	t_tile *map = calloc(max, sizeof(t_tile));
-	int *mines = game->mines;
+	uint32_t *mines = game->mines;
 
 	for (int i = 0; i < max; i++)
 	{
@@ -82,11 +82,41 @@ void start_game(t_game *game)
 	console_info("Mines initialization succeded");
 	print_mines();
 
+	free(game->map);
 	game->map = create_field(game);
 	console_info("Field initialization succeeded");
 	print_field();
 
-	game->time = time(NULL);
+	game->start_time = time(NULL);
+	game->gstate = GS_INGAME;
+	game->state.type = E_NORMAL;
+	game->last_time = game->start_time;
+}
+
+void init_state(t_game *game)
+{
+	SDL_Rect dst;
+
+	dst.w = dst.h = 50;
+	dst.x = (minesweeper.w - dst.w) / 2;
+	dst.y = BORDER_WIDTH + (HEADER - dst.h) / 2;
+	game->state.dst = dst;
+	game->state.type = E_NORMAL;
+	game->state.clicked = SDL_FALSE;
+}
+
+static t_tile *null_map_state(t_game *game)
+{
+	int max = game->c * game->l;
+	t_tile *map = calloc(max, sizeof(t_tile));
+
+	for (int i = 0; i < max; i++)
+	{
+		map[i].state = T_NORMAL;
+		map[i].hidden = 1;
+		map[i].value = 0;
+	}
+	return map;
 }
 
 void init_field()
@@ -99,8 +129,10 @@ void init_field()
 	game->l = 9;
 	game->m = 10;
 	game->mines = NULL;
-	game->map = NULL;
+	game->map = null_map_state(game);
+	game->gstate = GS_NONE;
 	game->seed = 0;
-	game->time = 0;
+	game->start_time = 0;
 	game->remaining_mines = game->m;
+	game->current_tile = NULL;
 }

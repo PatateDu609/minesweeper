@@ -9,7 +9,11 @@ static void poll(SDL_Event *event)
 		if (event->type == SDL_KEYDOWN && event->key.keysym.sym == SDLK_ESCAPE)
 			minesweeper.is_open = 0;
 		if (event->type == SDL_MOUSEBUTTONDOWN)
-			click(event->button);
+			mouse_click_down(event->button);
+		if (event->type == SDL_MOUSEBUTTONUP)
+			mouse_click_up(event->button);
+		if (event->type == SDL_MOUSEMOTION)
+			mouse_move(event->motion);
 	}
 }
 
