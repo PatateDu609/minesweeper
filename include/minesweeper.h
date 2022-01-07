@@ -19,6 +19,8 @@ void init_field(void);
 void launch(void);
 
 t_coord *get_coord(int wx, int wy);
+void mark_tile(t_coord *coord);
+void select_tile(t_coord *coord);
 void flip(t_coord *coord);
 
 void mouse_click_down(SDL_MouseButtonEvent button);

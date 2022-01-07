@@ -38,12 +38,10 @@ static void draw_digits_header(int digits, uint32_t nb, uint8_t side)
 
 static void draw_digit_tile(uint8_t value, SDL_Rect dst)
 {
-	SDL_Color c __unused = get_sdl_color(minesweeper.sprites.tile_number_color[value - 1]);
-	char displayable __unused = value + '0';
+	SDL_Texture *tex = minesweeper.sprites.texture_numbers_tiles;
+	SDL_Rect src = minesweeper.sprites.numbers_tiles[value];
 
-	SDL_RenderCopy(minesweeper.renderer, minesweeper.sprites.texture_tiles,
-				   minesweeper.sprites.tiles + T_CLICKED_NORMAL,
-				   &dst);
+	SDL_RenderCopy(minesweeper.renderer, tex, &src, &dst);
 }
 
 static void draw_header(void)

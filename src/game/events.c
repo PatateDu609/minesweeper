@@ -16,9 +16,14 @@ static uint8_t get_click_zone(int x, int y)
 static void reset_view()
 {
 	minesweeper.game.state.clicked = SDL_FALSE;
-	if (minesweeper.game.current_tile &&
-		minesweeper.game.map[minesweeper.game.current_tile->index].state == T_CLICKED_NORMAL)
-		minesweeper.game.map[minesweeper.game.current_tile->index].state = T_NORMAL;
+	if (minesweeper.game.current_tile)
+	{
+		t_tile *tile = minesweeper.game.map + minesweeper.game.current_tile->index;
+		if (tile->state == T_CLICKED_NORMAL)
+			tile->state = T_NORMAL;
+		else if (tile->state == T_TRIGGERED_QUESTION_MARK)
+			tile->state = T_QUESTION_MARK;
+	}
 	free(minesweeper.game.current_tile);
 	minesweeper.game.current_tile = NULL;
 	minesweeper.game.state.type = E_NORMAL;
@@ -31,8 +36,12 @@ static void update_view()
 	if (minesweeper.game.current_tile)
 	{
 		int index = minesweeper.game.current_tile->index;
-		if (minesweeper.game.map[index].state == T_NORMAL)
-			minesweeper.game.map[index].state = T_CLICKED_NORMAL;
+		t_tile *tile = minesweeper.game.map + index;
+
+		if (tile->state == T_NORMAL)
+			tile->state = T_CLICKED_NORMAL;
+		else if (tile->state == T_QUESTION_MARK)
+			tile->state = T_TRIGGERED_QUESTION_MARK;
 	}
 }
 
@@ -48,8 +57,11 @@ static void mouse_event(int32_t x, int32_t y, uint8_t exist)
 	if (zone == 1)
 	{
 		t_coord *coord = get_coord(x, y);
-		minesweeper.game.current_tile = coord;
-		minesweeper.game.state.type = E_OH;
+
+		if (minesweeper.clicked == BUTTON_LEFT)
+			select_tile(coord);
+		else if (minesweeper.clicked == BUTTON_RIGHT)
+			mark_tile(coord);
 	}
 	if (zone == 2)
 		minesweeper.game.state.clicked = SDL_TRUE;
@@ -58,7 +70,6 @@ static void mouse_event(int32_t x, int32_t y, uint8_t exist)
 
 void mouse_click_down(SDL_MouseButtonEvent button)
 {
-	// console_log("button.type = %d", button.type);
 	if (button.button == SDL_BUTTON_LEFT)
 		minesweeper.clicked = BUTTON_LEFT;
 	else if (button.button == SDL_BUTTON_RIGHT)
@@ -68,6 +79,11 @@ void mouse_click_down(SDL_MouseButtonEvent button)
 
 void mouse_click_up(SDL_MouseButtonEvent __unused button)
 {
+	if (minesweeper.clicked == BUTTON_RIGHT)
+	{
+		minesweeper.clicked = BUTTON_NONE;
+		return;
+	}
 	if (minesweeper.game.current_tile)
 	{
 		minesweeper.game.gstate == GS_NONE ? start_game(&minesweeper.game)

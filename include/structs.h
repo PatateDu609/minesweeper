@@ -87,9 +87,10 @@ typedef struct
 	SDL_Texture *texture_numbers_menu;
 	SDL_Rect numbers_menu[10];
 
-	SDL_Texture *borders;
+	SDL_Texture *texture_numbers_tiles;
+	SDL_Rect numbers_tiles[8];
 
-	t_color tile_number_color[8];
+	SDL_Texture *borders;
 } t_sprites;
 
 typedef struct

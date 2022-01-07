@@ -41,8 +41,33 @@ void flip(t_coord *coord)
 			minesweeper.game.state.type = E_DEAD;
 		}
 		else
-		{
 			tile->state = tile->value ? T_NUMBER : T_CLICKED_NORMAL;
-		}
 	}
+}
+
+void select_tile(t_coord *coord)
+{
+	t_tile *tile = minesweeper.game.map + coord->index;
+
+	if (tile->state == T_FLAG)
+		return;
+	minesweeper.game.current_tile = coord;
+	minesweeper.game.state.type = E_OH;
+}
+
+void mark_tile(t_coord *coord)
+{
+	minesweeper.game.current_tile = NULL;
+	t_tile *tile = minesweeper.game.map + coord->index;
+	int old = tile->state == T_FLAG;
+
+	if (tile->state == T_NORMAL && minesweeper.game.remaining_mines)
+		tile->state = T_FLAG;
+	else if (tile->state == T_FLAG)
+		tile->state = T_QUESTION_MARK;
+	else if (tile->state -= T_NORMAL)
+		tile->state = T_NORMAL;
+	int new = tile->state == T_FLAG;
+
+	minesweeper.game.remaining_mines += old - new;
 }

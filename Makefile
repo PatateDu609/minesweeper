@@ -39,7 +39,7 @@ $(OBJ_FOLDER)/%.o:	$(SRC_FOLDER)/%$(EXT)
 	$(MKDIR) $(@D)
 	$(CC) $(CFLAGS) -MMD -c $< -o $@
 
-$(NAME): 	$(LOGGER_NAME) $(OBJ_FOLDER)/$(NAME)
+$(NAME): 	reset_mains $(LOGGER_NAME) $(OBJ_FOLDER)/$(NAME)
 
 $(OBJ_FOLDER)/$(NAME):	$(OBJ)
 	$(CC) $^ -o $@ $(LDFLAGS)
@@ -60,8 +60,10 @@ re: fclean all
 $(LOGGER_NAME):
 	$(MAKE) -s -C $(LOGGER)
 
-tiles:
-	$(RM) obj/main.o obj/generate_tile_numbers.o
+tiles: reset_mains
 	@$(MAKE) GEN_TILES=1
+
+reset_mains:
+	$(RM) obj/main.o obj/generate_tile_numbers.o
 
 .PHONY:	fclean all re clean logger
