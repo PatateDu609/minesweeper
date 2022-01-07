@@ -102,6 +102,7 @@ int main()
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
 	TTF_Font *font = TTF_OpenFont("resources/Minecraftia-Regular.ttf", 24);
+	TTF_SetFontStyle(font, TTF_STYLE_BOLD);
 	SDL_Texture *numbers[8];
 	for (int i = 0; i < 8; i++)
 		numbers[i] = get_number(renderer, font, i + 1, c[i]);
@@ -118,8 +119,6 @@ int main()
 	SDL_FreeSurface(spritesheet);
 
 	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, res);
-	// render_nb(renderer, font, texture, numbers, 512);
-	// save_renderer(file_target, renderer);
 
 	SDL_Event e;
 	int is_open = 1;
