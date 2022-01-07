@@ -40,5 +40,9 @@ void flip(t_coord *coord)
 			minesweeper.game.gstate = GS_END;
 			minesweeper.game.state.type = E_DEAD;
 		}
+		else
+		{
+			tile->state = tile->value ? T_NUMBER : T_CLICKED_NORMAL;
+		}
 	}
 }

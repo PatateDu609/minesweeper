@@ -88,50 +88,48 @@ t_score_numbers *itoscores(int digits, uint32_t nb)
 	}
 
 	char buffer[32];
+	t_score_numbers n[10];
 	SDL_itoa(nb, buffer, 10);
+
+	n[0] = SM_0;
+	n[1] = SM_1;
+	n[2] = SM_2;
+	n[3] = SM_3;
+	n[4] = SM_4;
+	n[5] = SM_5;
+	n[6] = SM_6;
+	n[7] = SM_7;
+	n[8] = SM_8;
+	n[9] = SM_9;
 
 	if (strlen(buffer) > (size_t)digits)
 		for (int i = 0; i < digits; i++)
 			numbers[i] = SM_9;
 	else
-	{
 		for (size_t i = digits - strlen(buffer), j = 0; j < strlen(buffer); j++, i++)
-		{
-			switch (buffer[j])
-			{
-			case '0':
-				numbers[i] = SM_0;
-				break;
-			case '1':
-				numbers[i] = SM_1;
-				break;
-			case '2':
-				numbers[i] = SM_2;
-				break;
-			case '3':
-				numbers[i] = SM_3;
-				break;
-			case '4':
-				numbers[i] = SM_4;
-				break;
-			case '5':
-				numbers[i] = SM_5;
-				break;
-			case '6':
-				numbers[i] = SM_6;
-				break;
-			case '7':
-				numbers[i] = SM_7;
-				break;
-			case '8':
-				numbers[i] = SM_8;
-				break;
-			case '9':
-				numbers[i] = SM_9;
-				break;
-			}
-		}
-	}
+			numbers[i] = n[buffer[j] - '0'];
 
 	return numbers;
+}
+
+t_color get_color(int r, int g, int b, int a)
+{
+	t_color color;
+
+	color.r = r;
+	color.g = g;
+	color.b = b;
+	color.a = a;
+	return color;
+}
+
+SDL_Color get_sdl_color(t_color c)
+{
+	SDL_Color ret;
+
+	ret.r = c.r;
+	ret.g = c.g;
+	ret.b = c.b;
+	ret.a = c.a;
+	return ret;
 }

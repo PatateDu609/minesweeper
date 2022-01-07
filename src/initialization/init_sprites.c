@@ -38,6 +38,18 @@ static void load_spritesheet(SDL_Texture **target, SDL_Rect *rects, int nb, char
 	SDL_FreeSurface(spritesheet);
 }
 
+static void init_colors(void)
+{
+	minesweeper.sprites.tile_number_color[1] = get_color(0, 128, 0, 255);
+	minesweeper.sprites.tile_number_color[0] = get_color(0, 0, 255, 255);
+	minesweeper.sprites.tile_number_color[2] = get_color(255, 0, 0, 255);
+	minesweeper.sprites.tile_number_color[3] = get_color(0, 0, 128, 255);
+	minesweeper.sprites.tile_number_color[4] = get_color(128, 0, 0, 255);
+	minesweeper.sprites.tile_number_color[5] = get_color(0, 128, 128, 255);
+	minesweeper.sprites.tile_number_color[6] = get_color(0, 0, 0, 255);
+	minesweeper.sprites.tile_number_color[7] = get_color(128, 128, 128, 255);
+}
+
 void init_sprites(void)
 {
 	init_borders();
@@ -50,4 +62,5 @@ void init_sprites(void)
 	load_spritesheet(&minesweeper.sprites.texture_numbers_menu,
 					 minesweeper.sprites.numbers_menu, 10,
 					 "resources/numbers.png", 304, 544);
+	init_colors();
 }

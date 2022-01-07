@@ -36,6 +36,16 @@ static void draw_digits_header(int digits, uint32_t nb, uint8_t side)
 	free(arr);
 }
 
+static void draw_digit_tile(uint8_t value, SDL_Rect dst)
+{
+	SDL_Color c __unused = get_sdl_color(minesweeper.sprites.tile_number_color[value - 1]);
+	char displayable __unused = value + '0';
+
+	SDL_RenderCopy(minesweeper.renderer, minesweeper.sprites.texture_tiles,
+				   minesweeper.sprites.tiles + T_CLICKED_NORMAL,
+				   &dst);
+}
+
 static void draw_header(void)
 {
 	uint32_t t;
@@ -68,13 +78,16 @@ static void draw_field(void)
 		for (int x = 0; x < c; x++)
 		{
 			int index = y * c + x;
-
-			src = map ? tiles[map[index].state] : tiles[T_NORMAL];
-
 			dst.x = x * WTILE + BORDER_WIDTH;
 			dst.y = y * HTILE + HEADER + 2 * BORDER_WIDTH;
 
-			SDL_RenderCopy(minesweeper.renderer, minesweeper.sprites.texture_tiles, &src, &dst);
+			if (!map[index].hidden && map[index].state == T_NUMBER)
+				draw_digit_tile(map[index].value, dst);
+			else
+			{
+				src = tiles[map[index].state];
+				SDL_RenderCopy(minesweeper.renderer, minesweeper.sprites.texture_tiles, &src, &dst);
+			}
 		}
 	}
 }

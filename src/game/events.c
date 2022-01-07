@@ -21,14 +21,13 @@ static void reset_view()
 		minesweeper.game.map[minesweeper.game.current_tile->index].state = T_NORMAL;
 	free(minesweeper.game.current_tile);
 	minesweeper.game.current_tile = NULL;
+	minesweeper.game.state.type = E_NORMAL;
 }
 
 static void update_view()
 {
 	if (minesweeper.game.state.clicked)
 		minesweeper.game.state.type = E_CLICKED_NORMAL;
-	else
-		minesweeper.game.state.type = E_NORMAL;
 	if (minesweeper.game.current_tile)
 	{
 		int index = minesweeper.game.current_tile->index;
@@ -40,7 +39,7 @@ static void update_view()
 static void mouse_event(int32_t x, int32_t y, uint8_t exist)
 {
 	reset_view();
-	if (exist && !minesweeper.clicked)
+	if (exist && minesweeper.clicked == BUTTON_NONE)
 		return;
 
 	uint8_t zone = get_click_zone(x, y);
@@ -50,6 +49,7 @@ static void mouse_event(int32_t x, int32_t y, uint8_t exist)
 	{
 		t_coord *coord = get_coord(x, y);
 		minesweeper.game.current_tile = coord;
+		minesweeper.game.state.type = E_OH;
 	}
 	if (zone == 2)
 		minesweeper.game.state.clicked = SDL_TRUE;
@@ -58,7 +58,11 @@ static void mouse_event(int32_t x, int32_t y, uint8_t exist)
 
 void mouse_click_down(SDL_MouseButtonEvent button)
 {
-	minesweeper.clicked = SDL_TRUE;
+	// console_log("button.type = %d", button.type);
+	if (button.button == SDL_BUTTON_LEFT)
+		minesweeper.clicked = BUTTON_LEFT;
+	else if (button.button == SDL_BUTTON_RIGHT)
+		minesweeper.clicked = BUTTON_RIGHT;
 	mouse_event(button.x, button.y, 0);
 }
 
@@ -71,11 +75,8 @@ void mouse_click_up(SDL_MouseButtonEvent __unused button)
 	}
 
 	reset_view();
-	free(minesweeper.game.current_tile);
-	minesweeper.game.current_tile = NULL;
-	minesweeper.game.state.clicked = SDL_FALSE;
 	update_view();
-	minesweeper.clicked = SDL_FALSE;
+	minesweeper.clicked = BUTTON_NONE;
 }
 
 void mouse_move(SDL_MouseMotionEvent motion)

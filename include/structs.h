@@ -88,6 +88,8 @@ typedef struct
 	SDL_Rect numbers_menu[10];
 
 	SDL_Texture *borders;
+
+	t_color tile_number_color[8];
 } t_sprites;
 
 typedef struct
@@ -133,7 +135,12 @@ typedef struct
 	t_game game;
 	t_sprites sprites;
 
-	SDL_bool clicked;
+	enum
+	{
+		BUTTON_NONE,
+		BUTTON_RIGHT,
+		BUTTON_LEFT,
+	} clicked;
 } t_minesweeper;
 
 #endif

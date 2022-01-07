@@ -95,6 +95,7 @@ void free_all(void)
 
 	SDL_DestroyRenderer(minesweeper.renderer);
 	SDL_DestroyWindow(minesweeper.window);
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

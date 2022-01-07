@@ -29,6 +29,12 @@ DEP				:=	$(OBJ:%.o=%.d)
 MKDIR			:=	@mkdir -p
 RM				:=	@rm -f
 
+GEN_TILES		:=	0
+
+ifeq ($(GEN_TILES), 1)
+	CFLAGS		+= -DGEN_TILES
+endif
+
 $(OBJ_FOLDER)/%.o:	$(SRC_FOLDER)/%$(EXT)
 	$(MKDIR) $(@D)
 	$(CC) $(CFLAGS) -MMD -c $< -o $@
@@ -53,5 +59,9 @@ re: fclean all
 
 $(LOGGER_NAME):
 	$(MAKE) -s -C $(LOGGER)
+
+tiles:
+	$(RM) obj/main.o obj/generate_tile_numbers.o
+	@$(MAKE) GEN_TILES=1
 
 .PHONY:	fclean all re clean logger
