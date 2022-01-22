@@ -1,9 +1,9 @@
+#ifdef GEN_TILES
+
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include "minesweeper.h"
 #include <logger.h>
-
-#ifdef GEN_TILES
 
 SDL_Texture *get_number(SDL_Renderer *renderer, TTF_Font *font, int nb, t_color c)
 {
