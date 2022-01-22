@@ -26,7 +26,8 @@ static void reset_view()
 	}
 	free(minesweeper.game.current_tile);
 	minesweeper.game.current_tile = NULL;
-	minesweeper.game.state.type = E_NORMAL;
+	if (minesweeper.game.state.type != E_DEAD)
+		minesweeper.game.state.type = E_NORMAL;
 }
 
 static void update_view()
@@ -54,7 +55,7 @@ static void mouse_event(int32_t x, int32_t y, uint8_t exist)
 	uint8_t zone = get_click_zone(x, y);
 	if (!zone)
 		return;
-	if (zone == 1)
+	if (zone == 1 && minesweeper.game.gstate != GS_END)
 	{
 		t_coord *coord = get_coord(x, y);
 
@@ -86,12 +87,13 @@ void mouse_click_up(SDL_MouseButtonEvent __unused button)
 	}
 	if (minesweeper.game.current_tile)
 	{
-		minesweeper.game.gstate == GS_NONE ? start_game(&minesweeper.game)
-										   : flip(minesweeper.game.current_tile);
+		if (minesweeper.game.gstate == GS_NONE)
+			start_game(&minesweeper.game, minesweeper.game.current_tile);
+		flip(minesweeper.game.current_tile);
 	}
-
 	reset_view();
 	update_view();
+
 	minesweeper.clicked = BUTTON_NONE;
 }
 

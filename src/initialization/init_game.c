@@ -10,7 +10,7 @@ static int chk_mine(uint32_t *mines, uint32_t mine, int i_max)
 	return 1;
 }
 
-static uint32_t *init_mines(t_game *game)
+static uint32_t *init_mines(t_game *game, t_coord *coord)
 {
 	int max = game->c * game->l;
 	uint32_t *mines = malloc(sizeof(uint32_t) * game->m);
@@ -20,7 +20,7 @@ static uint32_t *init_mines(t_game *game)
 		uint32_t mine;
 		do
 			mine = rand() % max;
-		while (!chk_mine(mines, mine, i));
+		while (mine != coord->index && !chk_mine(mines, mine, i));
 		mines[i] = mine;
 	}
 	sort(mines, game->m);
@@ -39,8 +39,7 @@ static void inc_around_mine(t_game *game, t_tile *map, int x, int y)
 			int y1 = y + i;
 			int coord = y1 * game->c + x1;
 
-			if (0 <= x1 && x1 < game->c &&
-				0 <= y1 && y1 < game->l &&
+			if (is_in_field(x1, y1) &&
 				!find_sorted(game->mines, game->m, coord))
 				map[coord].value++;
 		}
@@ -72,13 +71,13 @@ static t_tile *create_field(t_game *game)
 	return map;
 }
 
-void start_game(t_game *game)
+void start_game(t_game *game, t_coord *start)
 {
 	game->seed = time(NULL) * getpid();
 	console_log("seed = %d", game->seed);
 	srand(game->seed);
 
-	game->mines = init_mines(game);
+	game->mines = init_mines(game, start);
 	console_info("Mines initialization succeded");
 	print_mines();
 

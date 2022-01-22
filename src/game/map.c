@@ -25,6 +25,56 @@ t_coord *get_coord(int wx, int wy)
 	return coord;
 }
 
+static void game_lost()
+{
+	minesweeper.game.gstate = GS_END;
+	minesweeper.game.state.type = E_DEAD;
+
+	for (int i = 0; i < minesweeper.game.c * minesweeper.game.l; i++)
+	{
+		t_tile *tile = minesweeper.game.map + i;
+
+		tile->hidden = 0;
+		tile->state = (tile->value < 0) ? T_MINE : T_NUMBER;
+	}
+}
+
+int is_in_field(int x, int y)
+{
+	t_game *game = &minesweeper.game;
+
+	return 0 <= x && x < game->c &&
+		   0 <= y && y < game->l;
+}
+
+static void __flip(t_coord coord)
+{
+	t_tile *tile = minesweeper.game.map + coord.index;
+	t_coord c;
+
+	tile->state = T_NUMBER;
+	tile->hidden = 0;
+	if (tile->value)
+		return;
+
+	for (int i = -1; i <= 1; i++)
+	{
+		for (int j = -1; j <= 1; j++)
+		{
+			if (!i && !j)
+				continue;
+
+			c.x = coord.x + j;
+			c.y = coord.y + i;
+			c.index = c.y * minesweeper.game.c + c.x;
+			t_tile *to_check = minesweeper.game.map + c.index;
+
+			if (is_in_field(c.x, c.y) && to_check->hidden)
+				__flip(c);
+		}
+	}
+}
+
 void flip(t_coord *coord)
 {
 	t_tile *tile = minesweeper.game.map + coord->index;
@@ -37,11 +87,10 @@ void flip(t_coord *coord)
 		if (tile->value == -1)
 		{
 			tile->state = T_TRIGGERED_MINE;
-			minesweeper.game.gstate = GS_END;
-			minesweeper.game.state.type = E_DEAD;
+			game_lost();
 		}
 		else
-			tile->state = tile->value ? T_NUMBER : T_CLICKED_NORMAL;
+			__flip(*coord);
 	}
 }
 

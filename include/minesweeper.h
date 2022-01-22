@@ -14,13 +14,14 @@ void init_sprites(void);
 void init_state(t_game *game);
 void free_all(void);
 
-void start_game(t_game *game);
+void start_game(t_game *game, t_coord *coord);
 void init_field(void);
 void launch(void);
 
 t_coord *get_coord(int wx, int wy);
 void mark_tile(t_coord *coord);
 void select_tile(t_coord *coord);
+int is_in_field(int x, int y);
 void flip(t_coord *coord);
 
 void mouse_click_down(SDL_MouseButtonEvent button);
