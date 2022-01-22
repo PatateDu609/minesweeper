@@ -90,6 +90,8 @@ void start_game(t_game *game, t_coord *start)
 	game->gstate = GS_INGAME;
 	game->state.type = E_NORMAL;
 	game->last_time = game->start_time;
+	game->remaining_mines = game->m;
+	game->remaining_tiles = game->c * game->l - game->m;
 }
 
 void init_state(t_game *game)
@@ -134,4 +136,15 @@ void init_field()
 	game->start_time = 0;
 	game->remaining_mines = game->m;
 	game->current_tile = NULL;
+}
+
+void reset_game(t_game *game)
+{
+	game->gstate = GS_NONE;
+
+	free(game->map);
+	free(game->mines);
+
+	game->mines = NULL;
+	game->map = null_map_state(game);
 }

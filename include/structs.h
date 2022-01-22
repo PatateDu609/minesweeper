@@ -111,7 +111,8 @@ typedef struct
 	t_tile *map;
 
 	time_t start_time;
-	uint8_t remaining_mines;
+	uint16_t remaining_mines;
+	uint32_t remaining_tiles;
 
 	t_state_emote state;
 	t_game_state gstate;

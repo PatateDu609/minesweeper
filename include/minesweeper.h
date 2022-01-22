@@ -14,6 +14,7 @@ void init_sprites(void);
 void init_state(t_game *game);
 void free_all(void);
 
+void reset_game(t_game *game);
 void start_game(t_game *game, t_coord *coord);
 void init_field(void);
 void launch(void);

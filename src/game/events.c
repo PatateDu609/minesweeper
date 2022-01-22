@@ -26,7 +26,7 @@ static void reset_view()
 	}
 	free(minesweeper.game.current_tile);
 	minesweeper.game.current_tile = NULL;
-	if (minesweeper.game.state.type != E_DEAD)
+	if (minesweeper.game.gstate != GS_END)
 		minesweeper.game.state.type = E_NORMAL;
 }
 
@@ -44,6 +44,13 @@ static void update_view()
 		else if (tile->state == T_QUESTION_MARK)
 			tile->state = T_TRIGGERED_QUESTION_MARK;
 	}
+}
+
+static void emote_clicked()
+{
+	minesweeper.game.state.clicked = SDL_TRUE;
+
+	reset_game(&minesweeper.game);
 }
 
 static void mouse_event(int32_t x, int32_t y, uint8_t exist)
@@ -65,7 +72,7 @@ static void mouse_event(int32_t x, int32_t y, uint8_t exist)
 			mark_tile(coord);
 	}
 	if (zone == 2)
-		minesweeper.game.state.clicked = SDL_TRUE;
+		emote_clicked();
 	update_view();
 }
 

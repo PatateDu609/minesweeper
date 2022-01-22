@@ -39,6 +39,20 @@ static void game_lost()
 	}
 }
 
+static void game_finished()
+{
+	minesweeper.game.gstate = GS_END;
+	minesweeper.game.state.type = E_COOL;
+	minesweeper.game.remaining_mines = 0;
+
+	for (int i = 0; i < minesweeper.game.m; i++)
+	{
+		t_tile *tile = minesweeper.game.map + minesweeper.game.mines[i];
+
+		tile->state = T_FLAG;
+	}
+}
+
 int is_in_field(int x, int y)
 {
 	t_game *game = &minesweeper.game;
@@ -53,6 +67,8 @@ static void __flip(t_coord coord)
 	t_coord c;
 
 	tile->state = T_NUMBER;
+	if (tile->value >= 0 && tile->hidden)
+		minesweeper.game.remaining_tiles--;
 	tile->hidden = 0;
 	if (tile->value)
 		return;
@@ -79,11 +95,11 @@ void flip(t_coord *coord)
 {
 	t_tile *tile = minesweeper.game.map + coord->index;
 
-	console_info("clicked tile : state = %d, value = %d, hidden = %d",
-				 tile->state, tile->value, tile->hidden);
 	if (tile->hidden)
 	{
 		tile->hidden = 0;
+		if (tile->value >= 0)
+			minesweeper.game.remaining_tiles--;
 		if (tile->value == -1)
 		{
 			tile->state = T_TRIGGERED_MINE;
@@ -91,7 +107,11 @@ void flip(t_coord *coord)
 		}
 		else
 			__flip(*coord);
+
+		if (!minesweeper.game.remaining_tiles)
+			game_finished();
 	}
+	console_info("remaining tiles = %d", minesweeper.game.remaining_tiles);
 }
 
 void select_tile(t_coord *coord)
