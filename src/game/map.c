@@ -155,7 +155,6 @@ void flip(t_coord *coord)
 		if (!minesweeper.game.remaining_tiles)
 			game_finished();
 	}
-	console_info("remaining tiles = %d", minesweeper.game.remaining_tiles);
 }
 
 void select_tile(t_coord *coord)
