@@ -24,6 +24,8 @@ void mark_tile(t_coord *coord);
 void select_tile(t_coord *coord);
 int is_in_field(int x, int y);
 void flip(t_coord *coord);
+void highlight_selected(void);
+void set_selected(t_coord *coord);
 
 void mouse_click_down(SDL_MouseButtonEvent button);
 void mouse_click_up(SDL_MouseButtonEvent button);

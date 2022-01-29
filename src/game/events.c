@@ -67,7 +67,10 @@ static void mouse_event(int32_t x, int32_t y, uint8_t exist)
 		t_coord *coord = get_coord(x, y);
 
 		if (minesweeper.clicked == BUTTON_LEFT)
+		{
 			select_tile(coord);
+			highlight_selected();
+		}
 		else if (minesweeper.clicked == BUTTON_RIGHT)
 			mark_tile(coord);
 	}
@@ -87,6 +90,7 @@ void mouse_click_down(SDL_MouseButtonEvent button)
 
 void mouse_click_up(SDL_MouseButtonEvent __unused button)
 {
+	set_selected(NULL);
 	if (minesweeper.clicked == BUTTON_RIGHT)
 	{
 		minesweeper.clicked = BUTTON_NONE;

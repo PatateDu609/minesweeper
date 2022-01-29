@@ -62,11 +62,11 @@ typedef union u_color
 typedef struct
 {
 	uint32_t index;
-	int x;
-	int y;
+	int32_t x;
+	int32_t y;
 
-	int wx;
-	int wy;
+	int32_t wx;
+	int32_t wy;
 } t_coord;
 
 typedef struct
