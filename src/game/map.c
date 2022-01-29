@@ -155,6 +155,8 @@ void flip(t_coord *coord)
 		if (!minesweeper.game.remaining_tiles)
 			game_finished();
 	}
+	else if (_selected)
+		console_warn("Not supported yet");
 }
 
 void select_tile(t_coord *coord)

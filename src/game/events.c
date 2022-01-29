@@ -90,7 +90,6 @@ void mouse_click_down(SDL_MouseButtonEvent button)
 
 void mouse_click_up(SDL_MouseButtonEvent __unused button)
 {
-	set_selected(NULL);
 	if (minesweeper.clicked == BUTTON_RIGHT)
 	{
 		minesweeper.clicked = BUTTON_NONE;
@@ -101,6 +100,7 @@ void mouse_click_up(SDL_MouseButtonEvent __unused button)
 		if (minesweeper.game.gstate == GS_NONE)
 			start_game(&minesweeper.game, minesweeper.game.current_tile);
 		flip(minesweeper.game.current_tile);
+		set_selected(NULL);
 	}
 	reset_view();
 	update_view();
