@@ -178,11 +178,11 @@ void mark_tile(t_coord *coord)
 	t_tile *tile = minesweeper.game.map + coord->index;
 	int old = tile->state == T_FLAG;
 
-	if (tile->state == T_NORMAL && minesweeper.game.remaining_mines)
-		tile->state = T_FLAG;
-	else if (tile->state == T_FLAG)
+	if (tile->state == T_NORMAL)
+		tile->state = minesweeper.game.remaining_mines ? T_FLAG : T_QUESTION_MARK;
+	else if (old)
 		tile->state = T_QUESTION_MARK;
-	else if (tile->state -= T_NORMAL)
+	else
 		tile->state = T_NORMAL;
 	int new = tile->state == T_FLAG;
 
