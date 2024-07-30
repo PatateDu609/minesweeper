@@ -1,4 +1,6 @@
+#include "defines.h"
 #include "minesweeper.h"
+#include "utils.h"
 #include <logger.h>
 
 static void draw_borders(void)

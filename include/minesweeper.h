@@ -2,11 +2,6 @@
 #define MINESWEEPER_H
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-
-#include "defines.h"
-#include "utils.h"
 #include "structs.h"
 
 void init(void);

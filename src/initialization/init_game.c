@@ -1,3 +1,5 @@
+#include "defines.h"
+
 #include "minesweeper.h"
 #include "debug.h"
 #include <unistd.h>

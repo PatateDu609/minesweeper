@@ -1,5 +1,7 @@
+#include "defines.h"
 #include "minesweeper.h"
 #include <logger.h>
+#include <SDL_image.h>
 
 t_minesweeper minesweeper;
 

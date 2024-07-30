@@ -1,5 +1,7 @@
 #include "minesweeper.h"
+#include "utils.h"
 #include <logger.h>
+#include <SDL_image.h>
 
 static void init_borders(void)
 {

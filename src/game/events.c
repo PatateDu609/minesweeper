@@ -1,4 +1,5 @@
 #include "minesweeper.h"
+#include "defines.h"
 #include <logger.h>
 
 static uint8_t get_click_zone(int x, int y)

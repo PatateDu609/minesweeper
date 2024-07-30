@@ -2,7 +2,7 @@
 #define STRUCTS_H
 
 #include <stdint.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL_ttf.h>
 
 typedef enum
 {

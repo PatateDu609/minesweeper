@@ -1,3 +1,4 @@
+#include "defines.h"
 #include "minesweeper.h"
 #include <logger.h>
 
