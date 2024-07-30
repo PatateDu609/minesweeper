@@ -94,47 +94,47 @@ static uint8_t chk_overlap_bottom(uint8_t b, uint8_t s, uint8_t candidate)
 static uint8_t select_zone(int x, int y, uint8_t b)
 {
 	uint8_t ret = NO_SHADOW;
-	int left, right;
-	int abs_l = BORDER_WIDTH * LIGHT_ZONE, abs_d = BORDER_WIDTH * (1 - DARK_ZONE);
-	int min, max;
+	int     left,                              right;
+	int     abs_l = BORDER_WIDTH * LIGHT_ZONE, abs_d = BORDER_WIDTH * (1 - DARK_ZONE);
+	int     min,                               max;
 
 	if (IS_LEFT_BORDER(b))
 	{
-		min = 0;
-		max = BORDER_WIDTH;
-		left = abs_l;
+		min   = 0;
+		max   = BORDER_WIDTH;
+		left  = abs_l;
 		right = abs_d;
 		ret |= chk_overlap_left(b, ret, compute_zone(left, right, min, max, x));
 	}
 	if (IS_TOP_BORDER(b))
 	{
-		min = 0;
-		max = BORDER_WIDTH;
-		left = abs_l;
+		min   = 0;
+		max   = BORDER_WIDTH;
+		left  = abs_l;
 		right = abs_d;
 		ret |= chk_overlap_top(b, ret, compute_zone(left, right, min, max, y));
 	}
 	if (IS_RIGHT_BORDER(b) || IS_BOTTOM_BORDER(b))
 	{
-		max = minesweeper.w;
-		min = max - BORDER_WIDTH;
-		left = abs_l + min;
+		max   = minesweeper.w;
+		min   = max - BORDER_WIDTH;
+		left  = abs_l + min;
 		right = abs_d + min;
 		ret |= chk_overlap_right(b, ret, compute_zone(left, right, min, max, x));
 	}
 	if (IS_BOTTOM_BORDER(b))
 	{
-		max = minesweeper.h;
-		min = max - BORDER_WIDTH;
-		left = abs_l + min;
+		max   = minesweeper.h;
+		min   = max - BORDER_WIDTH;
+		left  = abs_l + min;
 		right = abs_d + min;
 		ret |= chk_overlap_bottom(b, ret, compute_zone(left, right, min, max, y));
 	}
 	if (IS_HEADER_BORDER(b))
 	{
-		min = HEADER + BORDER_WIDTH;
-		max = HEADER + 2 * BORDER_WIDTH;
-		left = abs_l + min;
+		min   = HEADER + BORDER_WIDTH;
+		max   = HEADER + 2 * BORDER_WIDTH;
+		left  = abs_l + min;
 		right = abs_d + min;
 		ret |= chk_overlap_header(b, ret, compute_zone(left, right, min, max, y));
 	}
@@ -149,11 +149,11 @@ t_color select_color(int x, int y)
 
 	t_color light, color, dark, ret;
 	color.r = color.g = color.b = 189;
-	dark.r = dark.g = dark.b = 123;
+	dark.r  = dark.g  = dark.b  = 123;
 	light.r = light.g = light.b = 255;
-	light.a = dark.a = color.a = 0xff;
+	light.a = dark.a  = color.a = 0xff;
 
-	ret = color;
+	ret       = color;
 	uint8_t s = select_zone(x, y, b);
 	if (IS_LIGHT_SHADOW(s))
 		ret = light;

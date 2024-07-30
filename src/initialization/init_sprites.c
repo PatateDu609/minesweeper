@@ -10,8 +10,16 @@ static void init_borders(void)
 	Uint32 bmask = 0x0000ff00;
 	Uint32 amask = 0x000000ff;
 
-	SDL_Surface *surface = SDL_CreateRGBSurface(0, minesweeper.w, minesweeper.h, 32,
-												rmask, gmask, bmask, amask);
+	SDL_Surface *surface = SDL_CreateRGBSurface(
+		0,
+		minesweeper.w,
+		minesweeper.h,
+		32,
+		rmask,
+		gmask,
+		bmask,
+		amask
+	);
 
 	for (int y = 0; y < minesweeper.h; y++)
 		for (int x = 0; x < minesweeper.w; x++)
@@ -34,7 +42,7 @@ static void load_spritesheet(SDL_Texture **target, SDL_Rect *rects, int nb, char
 	SDL_Rect rect = {.x = 0, .y = 0, .w = w, .h = h};
 	for (int i = 0; i < nb; i++)
 	{
-		rect.x = i * rect.w;
+		rect.x   = i * rect.w;
 		rects[i] = rect;
 	}
 	SDL_FreeSurface(spritesheet);
@@ -43,16 +51,36 @@ static void load_spritesheet(SDL_Texture **target, SDL_Rect *rects, int nb, char
 void init_sprites(void)
 {
 	init_borders();
-	load_spritesheet(&minesweeper.sprites.texture_tiles,
-					 minesweeper.sprites.tiles, 8,
-					 "resources/map.png", 512, 512);
-	load_spritesheet(&minesweeper.sprites.texture_emotes,
-					 minesweeper.sprites.emotes, 5,
-					 "resources/emotes.png", 512, 512);
-	load_spritesheet(&minesweeper.sprites.texture_numbers_menu,
-					 minesweeper.sprites.numbers_menu, 10,
-					 "resources/numbers.png", 304, 544);
-	load_spritesheet(&minesweeper.sprites.texture_numbers_tiles,
-					 minesweeper.sprites.numbers_tiles, 8,
-					 "resources/tile_numbers.png", 512, 512);
+	load_spritesheet(
+		&minesweeper.sprites.texture_tiles,
+		minesweeper.sprites.tiles,
+		8,
+		"resources/map.png",
+		512,
+		512
+	);
+	load_spritesheet(
+		&minesweeper.sprites.texture_emotes,
+		minesweeper.sprites.emotes,
+		5,
+		"resources/emotes.png",
+		512,
+		512
+	);
+	load_spritesheet(
+		&minesweeper.sprites.texture_numbers_menu,
+		minesweeper.sprites.numbers_menu,
+		10,
+		"resources/numbers.png",
+		304,
+		544
+	);
+	load_spritesheet(
+		&minesweeper.sprites.texture_numbers_tiles,
+		minesweeper.sprites.numbers_tiles,
+		8,
+		"resources/tile_numbers.png",
+		512,
+		512
+	);
 }

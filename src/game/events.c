@@ -37,8 +37,8 @@ static void update_view()
 		minesweeper.game.state.type = E_CLICKED_NORMAL;
 	if (minesweeper.game.current_tile)
 	{
-		int index = minesweeper.game.current_tile->index;
-		t_tile *tile = minesweeper.game.map + index;
+		int     index = minesweeper.game.current_tile->index;
+		t_tile *tile  = minesweeper.game.map + index;
 
 		if (tile->state == T_NORMAL)
 			tile->state = T_CLICKED_NORMAL;

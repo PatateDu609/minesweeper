@@ -2,7 +2,7 @@
 #include "minesweeper.h"
 #include <logger.h>
 
-static t_tile *_selected = NULL;
+static t_tile * _selected = NULL;
 static t_coord *_coord;
 
 int is_in_field(int x, int y)
@@ -10,7 +10,7 @@ int is_in_field(int x, int y)
 	t_game *game = &minesweeper.game;
 
 	return 0 <= x && x < game->c &&
-		   0 <= y && y < game->l;
+			0 <= y && y < game->l;
 }
 
 static void manage_highlighting(uint8_t mode)
@@ -24,9 +24,9 @@ static void manage_highlighting(uint8_t mode)
 		{
 			if (!i && !j)
 				continue;
-			int32_t x = _coord->x + i;
-			int32_t y = _coord->y + j;
-			int32_t index = y * minesweeper.game.c + x;
+			int32_t x       = _coord->x + i;
+			int32_t y       = _coord->y + j;
+			int32_t index   = y * minesweeper.game.c + x;
 			t_tile *current = minesweeper.game.map + index;
 
 			if (is_in_field(x, y) && current->hidden)
@@ -37,15 +37,15 @@ static void manage_highlighting(uint8_t mode)
 
 void set_selected(t_coord *coord)
 {
-	t_coord *c = coord ? malloc(sizeof(t_coord)) : NULL;
-	t_tile *tile = coord ? minesweeper.game.map + coord->index : NULL;
+	t_coord *c    = coord ? malloc(sizeof(t_coord)) : NULL;
+	t_tile * tile = coord ? minesweeper.game.map + coord->index : NULL;
 
 	manage_highlighting(0);
 	if (!tile)
 		free(_coord);
 	else
 		memcpy(c, coord, sizeof(t_coord));
-	_coord = c;
+	_coord    = c;
 	_selected = tile;
 }
 
@@ -57,7 +57,7 @@ void highlight_selected(void)
 t_coord *get_coord(int wx, int wy)
 {
 	t_coord *coord = calloc(1, sizeof(t_coord));
-	int rx, ry, fw, fh;
+	int      rx, ry, fw, fh;
 
 	if (!coord)
 	{
@@ -67,10 +67,10 @@ t_coord *get_coord(int wx, int wy)
 	coord->wx = wx;
 	coord->wy = wy;
 
-	rx = (wx - BORDER_WIDTH);
-	ry = wy - 2 * BORDER_WIDTH - HEADER;
-	fw = minesweeper.w - 2 * BORDER_WIDTH;
-	fh = minesweeper.h - HEADER - 3 * BORDER_WIDTH;
+	rx       = (wx - BORDER_WIDTH);
+	ry       = wy - 2 * BORDER_WIDTH - HEADER;
+	fw       = minesweeper.w - 2 * BORDER_WIDTH;
+	fh       = minesweeper.h - HEADER - 3 * BORDER_WIDTH;
 	coord->x = rx / (fw / minesweeper.game.c);
 	coord->y = ry / (fh / minesweeper.game.l);
 
@@ -80,7 +80,7 @@ t_coord *get_coord(int wx, int wy)
 
 static void game_lost()
 {
-	minesweeper.game.gstate = GS_END;
+	minesweeper.game.gstate     = GS_END;
 	minesweeper.game.state.type = E_DEAD;
 
 	for (int i = 0; i < minesweeper.game.c * minesweeper.game.l; i++)
@@ -88,14 +88,14 @@ static void game_lost()
 		t_tile *tile = minesweeper.game.map + i;
 
 		tile->hidden = 0;
-		tile->state = (tile->value < 0) ? T_MINE : T_NUMBER;
+		tile->state  = (tile->value < 0) ? T_MINE : T_NUMBER;
 	}
 }
 
 static void game_finished()
 {
-	minesweeper.game.gstate = GS_END;
-	minesweeper.game.state.type = E_COOL;
+	minesweeper.game.gstate          = GS_END;
+	minesweeper.game.state.type      = E_COOL;
 	minesweeper.game.remaining_mines = 0;
 
 	for (int i = 0; i < minesweeper.game.m; i++)
@@ -125,9 +125,9 @@ static void __flip(t_coord coord)
 			if (!i && !j)
 				continue;
 
-			c.x = coord.x + j;
-			c.y = coord.y + i;
-			c.index = c.y * minesweeper.game.c + c.x;
+			c.x              = coord.x + j;
+			c.y              = coord.y + i;
+			c.index          = c.y * minesweeper.game.c + c.x;
 			t_tile *to_check = minesweeper.game.map + c.index;
 
 			if (is_in_field(c.x, c.y) && to_check->hidden)
@@ -170,14 +170,14 @@ void select_tile(t_coord *coord)
 	else
 		set_selected(NULL);
 	minesweeper.game.current_tile = coord;
-	minesweeper.game.state.type = E_OH;
+	minesweeper.game.state.type   = E_OH;
 }
 
 void mark_tile(t_coord *coord)
 {
 	minesweeper.game.current_tile = NULL;
-	t_tile *tile = minesweeper.game.map + coord->index;
-	int old = tile->state == T_FLAG;
+	t_tile *tile                  = minesweeper.game.map + coord->index;
+	int     old                   = tile->state == T_FLAG;
 
 	if (tile->state == T_NORMAL)
 		tile->state = minesweeper.game.remaining_mines ? T_FLAG : T_QUESTION_MARK;

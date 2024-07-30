@@ -14,7 +14,7 @@ static int chk_mine(uint32_t *mines, uint32_t mine, int i_max)
 
 static uint32_t *init_mines(t_game *game, t_coord *coord)
 {
-	int max = game->c * game->l;
+	int       max   = game->c * game->l;
 	uint32_t *mines = malloc(sizeof(uint32_t) * game->m);
 
 	for (int i = 0; i < game->m; i++)
@@ -37,8 +37,8 @@ static void inc_around_mine(t_game *game, t_tile *map, int x, int y)
 		{
 			if (i == 0 && j == 0)
 				continue;
-			int x1 = x + j;
-			int y1 = y + i;
+			int x1    = x + j;
+			int y1    = y + i;
 			int coord = y1 * game->c + x1;
 
 			if (is_in_field(x1, y1) &&
@@ -50,20 +50,20 @@ static void inc_around_mine(t_game *game, t_tile *map, int x, int y)
 
 static t_tile *create_field(t_game *game)
 {
-	int max = game->c * game->l;
-	t_tile *map = calloc(max, sizeof(t_tile));
+	int       max   = game->c * game->l;
+	t_tile *  map   = calloc(max, sizeof(t_tile));
 	uint32_t *mines = game->mines;
 
 	for (int i = 0; i < max; i++)
 	{
 		map[i].hidden = 1;
-		map[i].state = T_NORMAL;
+		map[i].state  = T_NORMAL;
 	}
 
 	for (int i = 0; i < game->m; i++)
 	{
-		int x = mines[i] % game->c;
-		int y = mines[i] / game->c;
+		int x     = mines[i] % game->c;
+		int y     = mines[i] / game->c;
 		int index = y * game->c + x;
 
 		inc_around_mine(game, map, x, y);
@@ -88,10 +88,10 @@ void start_game(t_game *game, t_coord *start)
 	console_info("Field initialization succeeded");
 	print_field();
 
-	game->start_time = time(NULL);
-	game->gstate = GS_INGAME;
-	game->state.type = E_NORMAL;
-	game->last_time = game->start_time;
+	game->start_time      = time(NULL);
+	game->gstate          = GS_INGAME;
+	game->state.type      = E_NORMAL;
+	game->last_time       = game->start_time;
 	game->remaining_mines = game->m;
 	game->remaining_tiles = game->c * game->l - game->m;
 }
@@ -100,24 +100,24 @@ void init_state(t_game *game)
 {
 	SDL_Rect dst;
 
-	dst.w = dst.h = 50;
-	dst.x = (minesweeper.w - dst.w) / 2;
-	dst.y = BORDER_WIDTH + (HEADER - dst.h) / 2;
-	game->state.dst = dst;
-	game->state.type = E_NORMAL;
+	dst.w               = dst.h = 50;
+	dst.x               = (minesweeper.w - dst.w) / 2;
+	dst.y               = BORDER_WIDTH + (HEADER - dst.h) / 2;
+	game->state.dst     = dst;
+	game->state.type    = E_NORMAL;
 	game->state.clicked = SDL_FALSE;
 }
 
 static t_tile *null_map_state(t_game *game)
 {
-	int max = game->c * game->l;
+	int     max = game->c * game->l;
 	t_tile *map = calloc(max, sizeof(t_tile));
 
 	for (int i = 0; i < max; i++)
 	{
-		map[i].state = T_NORMAL;
+		map[i].state  = T_NORMAL;
 		map[i].hidden = 1;
-		map[i].value = 0;
+		map[i].value  = 0;
 	}
 	return map;
 }
@@ -128,16 +128,16 @@ void init_field()
 
 	t_game *game = &minesweeper.game;
 
-	game->c = 9;
-	game->l = 9;
-	game->m = 10;
-	game->mines = NULL;
-	game->map = null_map_state(game);
-	game->gstate = GS_NONE;
-	game->seed = 0;
-	game->start_time = 0;
+	game->c               = 9;
+	game->l               = 9;
+	game->m               = 10;
+	game->mines           = NULL;
+	game->map             = null_map_state(game);
+	game->gstate          = GS_NONE;
+	game->seed            = 0;
+	game->start_time      = 0;
 	game->remaining_mines = game->m;
-	game->current_tile = NULL;
+	game->current_tile    = NULL;
 }
 
 void reset_game(t_game *game)
@@ -148,5 +148,5 @@ void reset_game(t_game *game)
 	free(game->mines);
 
 	game->mines = NULL;
-	game->map = null_map_state(game);
+	game->map   = null_map_state(game);
 }
