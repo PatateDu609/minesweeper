@@ -42,8 +42,18 @@ set(SRCS
         src/utils.c
 )
 
+set(INCLUDE_FILES
+        include/debug.h
+        include/defines.h
+        include/minesweeper.h
+        include/structs.h
+        include/utils.h
+
+        src/initialization/borders_utils.h
+)
+
 add_subdirectory(lib/logger)
 
-add_executable(minesweeper ${SRCS})
+add_executable(minesweeper ${SRCS} ${INCLUDE_FILES})
 target_include_directories(minesweeper PRIVATE include/)
 target_link_libraries(minesweeper PRIVATE logger SDL2::SDL2 SDL2_image SDL2_ttf)
