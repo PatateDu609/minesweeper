@@ -1,0 +1,176 @@
+<svg version="2.0"
+     baseProfile="full"
+     width="1582"
+     height="2124"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <defs>
+        <radialGradient id="closeGradient" cx="90%" cy="90%" r="160%">
+            <stop offset="0%" stop-color="rgb(204, 70, 0)"/>
+            <stop offset="55%" stop-color="rgb(220, 101, 39)"/>
+            <stop offset="70%" stop-color="rgb(205, 117, 70)"/>
+            <stop offset="90%" stop-color="rgb(255, 204, 178)"/>
+            <stop offset="100%" stop-color="white"/>
+        </radialGradient>
+
+        <filter id="darken">
+            <feColorMatrix type="matrix"
+                           values="0.5 0 0 0 0
+                                   0 0.5 0 0 0
+                                   0 0 0.5 0 0
+                                   0 0 0 1 0"/>
+        </filter>
+        <filter id="max-whites">
+            <feColorMatrix type="matrix"
+                           values="1.5 0 0 0 0
+                                   0 1.5 0 0 0
+                                   0 0 1.5 0 0
+                                   0 0 0 1.5 0"/>
+        </filter>
+        <filter id="hover">
+            <feDiffuseLighting in="SourceGraphic" result="light" lighting-color="rgb(240, 240, 240)">
+                <fePointLight x="40" y="40" z="150"/>
+            </feDiffuseLighting>
+
+            <feComposite
+                    in="SourceGraphic"
+                    in2="light"
+                    operator="arithmetic"
+                    k1="4.5"
+                    k2="1"
+                    k3="0"
+                    k4="0"/>
+        </filter>
+        <filter id="active">
+            <feDiffuseLighting in="SourceGraphic" result="light" lighting-color="rgb(255, 255, 255)">
+                <fePointLight x="40" y="40" z="20"/>
+            </feDiffuseLighting>
+
+            <feComposite
+                    id="close-active-composite"
+                    in="SourceGraphic"
+                    in2="light"
+                    operator="arithmetic"
+                    k1="1.5"
+                    k2="0.6"
+                    k3="0"
+                    k4="0"/>
+
+            <feColorMatrix id="close-active-color-mat" in="SourceGraphic" type="matrix"
+                           values="0 0 0 1
+                                   0 0 0 1
+                                   0 0 0 1
+                                   1 1 1 1"/>
+
+            <feComposite
+                    in="close-active-color-mat"
+                    in2="color-active-composite"
+                    operator="arithmetic"
+                    k1="0.9"
+                    k2="0.4"
+                    k3="0.2"
+                    k4="0"/>
+        </filter>
+
+        <filter id="close-lighting">
+            <feDiffuseLighting in="SourceGraphic" result="light" lighting-color="rgb(190, 190, 190)">
+                <fePointLight x="40" y="40" z="230"/>
+            </feDiffuseLighting>
+
+            <feComposite
+                    in="SourceGraphic"
+                    in2="light"
+                    operator="arithmetic"
+                    k1="2.5"
+                    k2="0.2"
+                    k3="0"
+                    k4="0"/>
+        </filter>
+
+        <filter id="minimize-lighting">
+            <feDiffuseLighting in="SourceGraphic" result="light" lighting-color="rgb(230, 230, 230)">
+                <fePointLight x="40" y="40" z="150"/>
+            </feDiffuseLighting>
+
+            <feComposite
+                    in="SourceGraphic"
+                    in2="light"
+                    operator="arithmetic"
+                    k1="2.5"
+                    k2="0.2"
+                    k3="0"
+                    k4="0"/>
+        </filter>
+    </defs>
+
+    <g id="close-normal" transform="translate(7.5, 7.5)" filter="url(#max-whites)">
+        <rect width="512" height="512" rx="40" filter="url(#close-lighting)" fill="rgb(199, 50, 0)" x="0" y="0"
+              stroke="white" stroke-width="15"/>
+
+        <g id="cross">
+            <line x1="120" y1="120" x2="400" y2="400" stroke="white" stroke-width="90" stroke-linecap="square"/>
+            <line x1="120" y1="400" x2="400" y2="120" stroke="white" stroke-width="90" stroke-linecap="square"/>
+        </g>
+    </g>
+    <g id="close-hover" transform="translate(7.5, 534.5)" filter="url(#hover)">
+        <rect width="512" height="512" rx="40" filter="url(#close-lighting)" fill="rgb(175, 50, 0)" x="0" y="0"
+              stroke="white" stroke-width="15"/>
+
+        <use href="#cross" />
+    </g>
+    <g id="close-active" transform="translate(7.5, 1061.5)" filter="url(#active)">
+        <rect width="512" height="512" rx="40" filter="url(#close-lighting)" fill="rgb(199, 50, 0)" x="0" y="0"
+              stroke="white" stroke-width="15"/>
+
+        <use href="#cross" />
+    </g>
+
+    <g id="minimize-normal" transform="translate(534.5, 7.5)" filter="url(#max-whites)">
+        <rect width="512" height="512" rx="40" filter="url(#minimize-lighting)" fill="rgb(0, 84, 233)" x="0" y="0"
+              stroke="white" stroke-width="15"/>
+
+        <line x1="70" y1="400" x2="320" y2="400" stroke="white" stroke-width="70"/>
+    </g>
+    <g id="minimize-hover" transform="translate(534.5, 534.5)" filter="url(#hover)">
+        <rect width="512" height="512" rx="40" filter="url(#minimize-lighting)" fill="rgb(0, 74, 200)" x="0" y="0"
+              stroke="white" stroke-width="15"/>
+
+        <line x1="70" y1="400" x2="320" y2="400" stroke="white" stroke-width="70"/>
+    </g>
+    <g id="minimize-active" transform="translate(534.5, 1061.5)" filter="url(#active)">
+        <rect width="512" height="512" rx="40" filter="url(#minimize-lighting)" fill="rgb(0, 84, 233)" x="0" y="0"
+              stroke="white" stroke-width="15"/>
+
+        <line x1="70" y1="400" x2="320" y2="400" stroke="white" stroke-width="70"/>
+    </g>
+
+    <g id="maximize-normal" transform="translate(1061.5, 7.5)" filter="url(#max-whites)">
+        <rect width="512" height="512" rx="40" filter="url(#minimize-lighting)" fill="rgb(0, 84, 233)" x="0" y="0"
+              stroke="white" stroke-width="15"/>
+
+        <g id="maximize-rect">
+            <line x1="85" y1="110" x2="427" y2="110" stroke="white" stroke-width="45"/>
+
+            <polyline stroke="white" points="92.5,110 92.5,410 419.5,410 419.5,110" fill="none" stroke-width="15"/>
+        </g>
+    </g>
+    <g id="maximize-hover" transform="translate(1061.5, 534.5)" filter="url(#hover)">
+        <rect width="512" height="512" rx="40" filter="url(#minimize-lighting)" fill="rgb(0, 74, 200)" x="0" y="0"
+              stroke="white" stroke-width="15"/>
+
+        <use href="#maximize-rect"/>
+    </g>
+    <g id="maximize-active" transform="translate(1061.5, 1061.5)" filter="url(#active)">
+        <rect width="512" height="512" rx="40" filter="url(#minimize-lighting)" fill="rgb(0, 84, 233)" x="0" y="0"
+              stroke="white" stroke-width="15"/>
+
+        <use href="#maximize-rect"/>
+    </g>
+    <g id="maximize-disabled" transform="translate(1061.5, 1588.5)" filter="url(#darken)">
+        <rect width="512" height="512" rx="40" filter="url(#minimize-lighting)" fill="rgb(0, 84, 233)" x="0" y="0"
+              stroke="white" stroke-width="15"/>
+
+        <use href="#maximize-rect"/>
+    </g>
+
+</svg>

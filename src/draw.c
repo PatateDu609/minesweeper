@@ -5,7 +5,12 @@
 
 static void draw_borders(void)
 {
-	SDL_RenderCopy(minesweeper.renderer, minesweeper.sprites.borders, NULL, NULL);
+	SDL_Rect dst;
+	dst.x = WIDTH_UI_BORDERS;
+	dst.y = HEIGHT_UI_HEADER;
+	dst.w = minesweeper.w;
+	dst.h = minesweeper.h;
+	SDL_RenderCopy(minesweeper.renderer, minesweeper.sprites.borders, NULL, &dst);
 }
 
 static void draw_emote()
@@ -28,6 +33,10 @@ static void draw_digits_header(int digits, uint32_t nb, uint8_t side)
 	dst.w = ratio * dst.h;
 	dst.x = side ? minesweeper.w - BORDER_WIDTH - shift - dst.w * digits : BORDER_WIDTH + shift;
 	dst.y = BORDER_WIDTH + (HEADER - dst.h) / 2;
+
+
+	dst.x += WIDTH_UI_BORDERS;
+	dst.y += HEIGHT_UI_HEADER;
 
 	for (int i = 0; i < digits; i++, dst.x += dst.w)
 	{
@@ -69,7 +78,9 @@ static void draw_field(void)
 	int       l     = minesweeper.game.l, c = minesweeper.game.c;
 	t_tile *  map   = minesweeper.game.map;
 
-	dst.x = dst.y = 0;
+	const int base_x = WIDTH_UI_BORDERS;
+	const int base_y = HEIGHT_UI_HEADER;
+
 	dst.w = WTILE;
 	dst.h = HTILE;
 
@@ -78,8 +89,8 @@ static void draw_field(void)
 		for (int x = 0; x < c; x++)
 		{
 			int index = y * c + x;
-			dst.x     = x * WTILE + BORDER_WIDTH;
-			dst.y     = y * HTILE + HEADER + 2 * BORDER_WIDTH;
+			dst.x     = base_x + x * WTILE + BORDER_WIDTH;
+			dst.y     = base_y + y * HTILE + HEADER + 2 * BORDER_WIDTH;
 
 			if (!map[index].hidden && map[index].state == T_NUMBER)
 				draw_digit_tile(map[index].value, dst);

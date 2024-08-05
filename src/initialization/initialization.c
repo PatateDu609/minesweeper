@@ -38,9 +38,9 @@ static void init_window(void)
 		minesweeper.title,
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		minesweeper.w,
-		minesweeper.h,
-		SDL_WINDOW_SHOWN
+		minesweeper.win_width,
+		minesweeper.win_height,
+		SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS
 	);
 
 	if (minesweeper.window)
@@ -77,8 +77,11 @@ void init(void)
 {
 	init_field();
 
-	minesweeper.w       = WTILE * minesweeper.game.c + 2 * BORDER_WIDTH;
-	minesweeper.h       = HTILE * minesweeper.game.l + HEADER + BORDER_WIDTH * 3;
+	minesweeper.w          = WTILE * minesweeper.game.c + 2 * BORDER_WIDTH;
+	minesweeper.h          = HTILE * minesweeper.game.l + HEADER + BORDER_WIDTH * 3;
+	minesweeper.win_width  = minesweeper.w + 2 * WIDTH_UI_BORDERS;
+	minesweeper.win_height = minesweeper.h + WIDTH_UI_BORDERS + HEIGHT_UI_HEADER;
+
 	minesweeper.title   = WINDOW_TITLE;
 	minesweeper.is_open = 1;
 	minesweeper.bg      = (SDL_Color){.r = 189, .g = 189, .b = 189, .a = 255};

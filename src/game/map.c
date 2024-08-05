@@ -13,10 +13,32 @@ int is_in_field(int x, int y)
 			0 <= y && y < game->l;
 }
 
-static void manage_highlighting(uint8_t mode)
+static void manage_highlighting(const uint8_t mode)
 {
-	if (!_selected)
+	if (_selected == NULL)
 		return;
+
+	size_t flags = 0;
+	if (mode == 1)
+	{
+		for (int8_t i = -1; i <= 1; i++)
+		{
+			for (int8_t j = -1; j <= 1; j++)
+			{
+				if (!i && !j)
+					continue;
+				const int32_t x       = _coord->x + i;
+				const int32_t y       = _coord->y + j;
+				const int32_t index   = y * minesweeper.game.c + x;
+				t_tile *      current = minesweeper.game.map + index;
+
+				if (is_in_field(x, y) && current->hidden && current->state == T_FLAG)
+					flags++;
+			}
+		}
+	}
+
+	uint8_t can_flip = flags >= _selected->value;
 
 	for (int8_t i = -1; i <= 1; i++)
 	{
@@ -24,13 +46,24 @@ static void manage_highlighting(uint8_t mode)
 		{
 			if (!i && !j)
 				continue;
-			int32_t x       = _coord->x + i;
-			int32_t y       = _coord->y + j;
-			int32_t index   = y * minesweeper.game.c + x;
-			t_tile *current = minesweeper.game.map + index;
+			const int32_t x       = _coord->x + i;
+			const int32_t y       = _coord->y + j;
+			const int32_t index   = y * minesweeper.game.c + x;
+			t_tile *      current = minesweeper.game.map + index;
 
-			if (is_in_field(x, y) && current->hidden)
-				current->state = mode ? T_CLICKED_NORMAL : T_NORMAL;
+			if (is_in_field(x, y) && current->hidden && current->state != T_FLAG)
+			{
+				if (mode && can_flip)
+				{
+					t_coord c;
+					c.x     = x;
+					c.y     = y;
+					c.index = index;
+					flip(&c);
+				}
+				else
+					current->state = mode ? T_CLICKED_NORMAL : T_NORMAL;
+			}
 		}
 	}
 }
@@ -136,7 +169,7 @@ static void __flip(t_coord coord)
 	}
 }
 
-void flip(t_coord *coord)
+void flip(const t_coord *coord)
 {
 	t_tile *tile = minesweeper.game.map + coord->index;
 

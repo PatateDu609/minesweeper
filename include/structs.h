@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include <SDL_ttf.h>
 
+#include "ui.h"
+
+
 typedef enum
 {
 	T_NORMAL,
@@ -17,6 +20,7 @@ typedef enum
 	T_NUMBER,
 } t_tile_types;
 
+
 typedef enum
 {
 	E_DEAD,
@@ -25,6 +29,7 @@ typedef enum
 	E_NORMAL,
 	E_CLICKED_NORMAL,
 } t_emote_type;
+
 
 typedef enum
 {
@@ -40,6 +45,7 @@ typedef enum
 	SM_9,
 } t_score_numbers;
 
+
 typedef enum
 {
 	GS_NONE,
@@ -47,58 +53,74 @@ typedef enum
 	GS_END
 } t_game_state;
 
-typedef union u_color
+
+typedef enum
 {
-	Uint32 raw;
-	struct
-	{
-		unsigned char a;
-		unsigned char b;
-		unsigned char g;
-		unsigned char r;
-	};
-} t_color;
+	CTRL_INVALID = 0xFF,
+
+	CTRL_CLOSE          = 0,
+	CTRL_CLOSE_HOVER    = 1,
+	CTRL_CLOSE_ACTIVE   = 2,
+	CTRL_CLOSE_DISABLED = CTRL_INVALID,
+
+	CTRL_MINIMIZE          = 4,
+	CTRL_MINIMIZE_HOVER    = 5,
+	CTRL_MINIMIZE_ACTIVE   = 6,
+	CTRL_MINIMIZE_DISABLED = CTRL_INVALID,
+
+	CTRL_MAXIMIZE          = 8,
+	CTRL_MAXIMIZE_HOVER    = 9,
+	CTRL_MAXIMIZE_ACTIVE   = 10,
+	CTRL_MAXIMIZE_DISABLED = 11,
+} t_controls;
+
 
 typedef struct
 {
 	uint32_t index;
-	int32_t x;
-	int32_t y;
+	int32_t  x;
+	int32_t  y;
 
 	int32_t wx;
 	int32_t wy;
 } t_coord;
 
+
 typedef struct
 {
-	int hidden;
-	char value;
+	int          hidden;
+	char         value;
 	t_tile_types state;
 } t_tile;
+
 
 typedef struct
 {
 	SDL_Texture *texture_tiles;
-	SDL_Rect tiles[8];
+	SDL_Rect     tiles[8];
 
 	SDL_Texture *texture_emotes;
-	SDL_Rect emotes[5];
+	SDL_Rect     emotes[5];
 
 	SDL_Texture *texture_numbers_menu;
-	SDL_Rect numbers_menu[10];
+	SDL_Rect     numbers_menu[10];
 
 	SDL_Texture *texture_numbers_tiles;
-	SDL_Rect numbers_tiles[8];
+	SDL_Rect     numbers_tiles[8];
 
 	SDL_Texture *borders;
+
+	SDL_Texture *controls;
 } t_sprites;
+
 
 typedef struct
 {
 	t_emote_type type;
-	SDL_Rect dst;
-	SDL_bool clicked;
+	SDL_Rect     dst;
+	SDL_bool     clicked;
 } t_state_emote;
+
 
 typedef struct
 {
@@ -106,36 +128,53 @@ typedef struct
 	int c;
 	int m;
 
-	uint32_t seed;
+	uint32_t  seed;
 	uint32_t *mines;
-	t_tile *map;
+	t_tile *  map;
 
-	time_t start_time;
+	time_t   start_time;
 	uint16_t remaining_mines;
 	uint32_t remaining_tiles;
 
 	t_state_emote state;
-	t_game_state gstate;
-	time_t last_time;
+	t_game_state  gstate;
+	time_t        last_time;
 
 	t_coord *current_tile;
 } t_game;
 
+
 typedef struct
 {
-	int w;
-	int h;
+	SDL_Rect     rect;
+	SDL_Texture *icon;
+	SDL_Texture *title;
+	SDL_Texture *bg;
+
+	t_btn_group *controls;
+} t_header;
+
+
+typedef struct
+{
+	int   w;
+	int   h;
 	char *title;
 
-	SDL_Window *window;
+	int win_width;
+	int win_height;
+
+	t_header      hdr;
+	SDL_Window *  window;
 	SDL_Renderer *renderer;
 
 	int is_open;
 
 	SDL_Color bg;
 	TTF_Font *font;
-	t_game game;
+	t_game    game;
 	t_sprites sprites;
+
 
 	enum
 	{

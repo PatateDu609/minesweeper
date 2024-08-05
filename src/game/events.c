@@ -4,6 +4,23 @@
 
 static uint8_t get_click_zone(int x, int y)
 {
+	SDL_Rect zone;
+
+	zone.x = WIDTH_UI_BORDERS;
+	zone.y = HEIGHT_UI_HEADER;
+	zone.w = minesweeper.w;
+	zone.h = minesweeper.h;
+
+	SDL_Point pt = {.x = x, .y = y};
+
+	if (SDL_PointInRect(&pt, &zone))
+	{
+		x -= zone.x;
+		y -= zone.y;
+	}
+	else
+		return 0;
+
 	if (BORDER_WIDTH < x && x < minesweeper.w - BORDER_WIDTH &&
 		2 * BORDER_WIDTH + HEADER < y && y < minesweeper.h - BORDER_WIDTH)
 		return 1;
@@ -60,12 +77,12 @@ static void mouse_event(int32_t x, int32_t y, uint8_t exist)
 	if (exist && minesweeper.clicked == BUTTON_NONE)
 		return;
 
-	uint8_t zone = get_click_zone(x, y);
+	const uint8_t zone = get_click_zone(x, y);
 	if (!zone)
 		return;
 	if (zone == 1 && minesweeper.game.gstate != GS_END)
 	{
-		t_coord *coord = get_coord(x, y);
+		t_coord *coord = get_coord(x - WIDTH_UI_BORDERS, y - HEIGHT_UI_HEADER);
 
 		if (minesweeper.clicked == BUTTON_LEFT)
 		{

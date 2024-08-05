@@ -36,7 +36,6 @@ set(SRCS
         src/initialization/initialization.c
 
         src/draw.c
-        src/generate_tile_numbers.c
         src/loop.c
         src/main.c
         src/utils.c
@@ -50,6 +49,9 @@ set(INCLUDE_FILES
         include/utils.h
 
         src/initialization/borders_utils.h
+        include/ui.h
+        include/color.h
+        src/initialization/init_header.c
 )
 
 add_subdirectory(lib/logger)
@@ -57,3 +59,8 @@ add_subdirectory(lib/logger)
 add_executable(minesweeper ${SRCS} ${INCLUDE_FILES})
 target_include_directories(minesweeper PRIVATE include/)
 target_link_libraries(minesweeper PRIVATE logger SDL2::SDL2 SDL2_image SDL2_ttf)
+
+
+add_executable(generate_tile_numbers src/generators/generate_tile_numbers.c  src/utils.c)
+target_include_directories(generate_tile_numbers PRIVATE include/)
+target_link_libraries(generate_tile_numbers PRIVATE logger SDL2::SDL2 SDL2_image SDL2_ttf)

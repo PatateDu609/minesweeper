@@ -9,6 +9,9 @@
 #define WTILE (48 * SIZE_MULTIPLIER)
 #define HTILE (48 * SIZE_MULTIPLIER)
 
+#define WIDTH_UI_BORDERS (5 * SIZE_MULTIPLIER)
+#define HEIGHT_UI_HEADER (30 * SIZE_MULTIPLIER)
+
 #define IS_CLAMPED(min, x, max) ((min) < (x) && (x) <= (max))
 
 #endif
