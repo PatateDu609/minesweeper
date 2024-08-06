@@ -84,7 +84,7 @@ void init(void)
 
 	minesweeper.title          = WINDOW_TITLE;
 	minesweeper.is_open        = 1;
-	minesweeper.bg             = (SDL_Color){.r = 0, .g = 0, .b = 0, .a = 0};
+	minesweeper.bg             = (SDL_Color){.r = 8, .g = 49, .b = 217, .a = 255};
 	minesweeper.game_hdr_color = (t_color){.r = 189, .g = 189, .b = 189, .a = 255};
 	minesweeper.clicked        = SDL_FALSE;
 
@@ -95,6 +95,7 @@ void init(void)
 	init_renderer();
 	init_sprites();
 	init_font();
+	init_header();
 
 	init_state(&minesweeper.game);
 }

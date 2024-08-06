@@ -7,12 +7,32 @@
 
 #include "color.h"
 
+
+typedef struct stop
+{
+	float   offset;
+	t_color color;
+} t_stop;
+
+
+typedef struct linear_gradient
+{
+	size_t nb_stops;
+	t_stop stops[];
+} t_linear_gradient;
+
+
+extern const t_linear_gradient grad_ui_header;
+
+SDL_Texture *apply_grad(SDL_Renderer *renderer, SDL_Rect rect, const struct linear_gradient *grad);
+
+
 typedef void ( free_fn )(void *);
 
 struct button;
 
-typedef uint8_t ( hover_fn )(struct button*, size_t, size_t);
-typedef uint8_t ( click_fn )(struct button*, size_t, size_t);
+typedef uint8_t ( hover_fn )(struct button *, size_t, size_t);
+typedef uint8_t ( click_fn )(struct button *, size_t, size_t);
 
 
 typedef struct button
@@ -28,7 +48,7 @@ typedef struct button
 	t_color   color;
 	hover_fn *chk_hover;
 	click_fn *chk_click;
-	uint8_t enabled;
+	uint8_t   enabled;
 
 
 	union
@@ -51,18 +71,20 @@ typedef struct button
 	};
 } t_button;
 
+
 typedef struct
 {
 	size_t x;
 	size_t y;
 
-	size_t nb_btns;
+	size_t    nb_btns;
 	t_button *btns;
 
 	size_t btn_space;
 } t_btn_group;
 
+
 t_btn_group *new_btn_group(size_t nb_btn, size_t btn_space, size_t start_x, size_t start_y);
-void btn_group_append(t_btn_group *btn, t_button *button);
+void         btn_group_append(t_btn_group *btn, t_button *button);
 
 #endif //MINESWEEPER_UI_H

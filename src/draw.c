@@ -3,6 +3,11 @@
 #include "utils.h"
 #include <logger.h>
 
+static void draw_ui(void)
+{
+	SDL_RenderCopy(minesweeper.renderer, minesweeper.hdr.bg, NULL, &minesweeper.hdr.rect);
+}
+
 static void draw_borders(void)
 {
 	SDL_RenderCopy(minesweeper.renderer, minesweeper.sprites.borders, NULL, &minesweeper.game_rect);
@@ -109,6 +114,7 @@ static void draw_field(void)
 
 void draw(void)
 {
+	draw_ui();
 	draw_header();
 	draw_field();
 	draw_borders();

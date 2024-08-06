@@ -52,6 +52,7 @@ set(INCLUDE_FILES
         include/ui.h
         include/color.h
         src/initialization/init_header.c
+        src/ui/gradient.c
 )
 
 add_subdirectory(lib/logger)
