@@ -101,8 +101,8 @@ void init_state(t_game *game)
 	SDL_Rect dst;
 
 	dst.w               = dst.h = 50;
-	dst.x               = WIDTH_UI_BORDERS + (minesweeper.w - dst.w) / 2;
-	dst.y               = HEIGHT_UI_HEADER + BORDER_WIDTH + (HEADER - dst.h) / 2;
+	dst.x               = minesweeper.game_rect.x + (minesweeper.w - dst.w) / 2;
+	dst.y               = minesweeper.game_rect.y + BORDER_WIDTH + (HEADER - dst.h) / 2;
 	game->state.dst     = dst;
 	game->state.type    = E_NORMAL;
 	game->state.clicked = SDL_FALSE;

@@ -4,30 +4,27 @@
 
 static uint8_t get_click_zone(int x, int y)
 {
-	SDL_Rect zone;
+	static uint8_t  is_init = 0;
+	static SDL_Rect field;
 
-	zone.x = WIDTH_UI_BORDERS;
-	zone.y = HEIGHT_UI_HEADER;
-	zone.w = minesweeper.w;
-	zone.h = minesweeper.h;
-
-	SDL_Point pt = {.x = x, .y = y};
-
-	if (SDL_PointInRect(&pt, &zone))
+	if (!is_init)
 	{
-		x -= zone.x;
-		y -= zone.y;
-	}
-	else
-		return 0;
+		field.x = minesweeper.game_rect.x + BORDER_WIDTH;
+		field.y = minesweeper.game_rect.y + BORDER_WIDTH * 2 + HEADER;
+		field.w = minesweeper.game_rect.w - BORDER_WIDTH * 2;
+		field.h = minesweeper.game_rect.h - BORDER_WIDTH * 3 - HEADER; // removing bottom border as well
 
-	if (BORDER_WIDTH < x && x < minesweeper.w - BORDER_WIDTH &&
-		2 * BORDER_WIDTH + HEADER < y && y < minesweeper.h - BORDER_WIDTH)
-		return 1;
-	SDL_Rect emote = minesweeper.game.state.dst;
-	if (emote.x <= x && x <= emote.x + emote.w &&
-		emote.y <= y && y <= emote.y + emote.h)
-		return 2;
+		is_init = 1;
+	}
+
+	const SDL_Point pt = {.x = x, .y = y};
+	if (SDL_PointInRect(&pt, &minesweeper.game_rect)) // game guard
+	{
+		if (SDL_PointInRect(&pt, &minesweeper.game.state.dst))
+			return 2;
+		if (SDL_PointInRect(&pt, &field))
+			return 1;
+	}
 	return 0;
 }
 

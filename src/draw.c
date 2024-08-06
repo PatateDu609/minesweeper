@@ -5,12 +5,7 @@
 
 static void draw_borders(void)
 {
-	SDL_Rect dst;
-	dst.x = WIDTH_UI_BORDERS;
-	dst.y = HEIGHT_UI_HEADER;
-	dst.w = minesweeper.w;
-	dst.h = minesweeper.h;
-	SDL_RenderCopy(minesweeper.renderer, minesweeper.sprites.borders, NULL, &dst);
+	SDL_RenderCopy(minesweeper.renderer, minesweeper.sprites.borders, NULL, &minesweeper.game_rect);
 }
 
 static void draw_emote()
@@ -66,6 +61,15 @@ static void draw_header(void)
 		t = minesweeper.game.last_time;
 	minesweeper.game.last_time = t;
 
+	SDL_Rect rect;
+	rect.x = WIDTH_UI_BORDERS;
+	rect.y = HEIGHT_UI_HEADER;
+	rect.w = minesweeper.w;
+	rect.h = HEADER + (int)(BORDER_WIDTH * 1.1f);
+
+	SDL_SetRenderDrawColor(minesweeper.renderer, minesweeper.game_hdr_color.r, minesweeper.game_hdr_color.g, minesweeper.game_hdr_color.b, minesweeper.game_hdr_color.a);
+	SDL_RenderFillRect(minesweeper.renderer, &rect);
+
 	draw_digits_header(3, minesweeper.game.remaining_mines, 0);
 	draw_emote();
 	draw_digits_header(4, t, 1);
@@ -105,7 +109,7 @@ static void draw_field(void)
 
 void draw(void)
 {
-	draw_borders();
 	draw_header();
 	draw_field();
+	draw_borders();
 }

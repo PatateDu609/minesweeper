@@ -82,10 +82,13 @@ void init(void)
 	minesweeper.win_width  = minesweeper.w + 2 * WIDTH_UI_BORDERS;
 	minesweeper.win_height = minesweeper.h + WIDTH_UI_BORDERS + HEIGHT_UI_HEADER;
 
-	minesweeper.title   = WINDOW_TITLE;
-	minesweeper.is_open = 1;
-	minesweeper.bg      = (SDL_Color){.r = 189, .g = 189, .b = 189, .a = 255};
-	minesweeper.clicked = SDL_FALSE;
+	minesweeper.title          = WINDOW_TITLE;
+	minesweeper.is_open        = 1;
+	minesweeper.bg             = (SDL_Color){.r = 0, .g = 0, .b = 0, .a = 0};
+	minesweeper.game_hdr_color = (t_color){.r = 189, .g = 189, .b = 189, .a = 255};
+	minesweeper.clicked        = SDL_FALSE;
+
+	minesweeper.game_rect = (SDL_Rect){.x = WIDTH_UI_BORDERS, .y = HEIGHT_UI_HEADER, .w = minesweeper.w, .h = minesweeper.h};
 
 	init_SDL();
 	init_window();

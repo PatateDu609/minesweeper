@@ -171,9 +171,12 @@ typedef struct
 	int is_open;
 
 	SDL_Color bg;
+	t_color   game_hdr_color;
 	TTF_Font *font;
-	t_game    game;
 	t_sprites sprites;
+
+	SDL_Rect game_rect;
+	t_game   game;
 
 
 	enum
