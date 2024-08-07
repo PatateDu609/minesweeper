@@ -13,5 +13,6 @@
 #define HEIGHT_UI_HEADER (40 * SIZE_MULTIPLIER)
 
 #define IS_CLAMPED(min, x, max) ((min) < (x) && (x) <= (max))
+#define IS_CLAMPED_LAX(min, x, max) ((min) <= (x) && (x) <= (max))
 
 #endif

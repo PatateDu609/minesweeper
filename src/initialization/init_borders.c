@@ -196,35 +196,35 @@ static enum border_region find_border_region(const int x, const int y)
 {
 	enum border_region regions = NO_BORDER;
 
-	if (IS_CLAMPED(settings.left_border_start, x, settings.left_border_no_shadow_start))
+	if (IS_CLAMPED_LAX(settings.left_border_start, x, settings.left_border_no_shadow_start))
 		regions |= BORDER_START_LEFT;
 	else if (IS_CLAMPED(settings.left_border_no_shadow_start, x, settings.left_border_no_shadow_end))
 		regions |= BORDER_MIDDLE_LEFT;
 	else if (IS_CLAMPED(settings.left_border_no_shadow_end, x, settings.left_border_end))
 		regions |= BORDER_END_LEFT;
 
-	if (IS_CLAMPED(settings.top_border_start, y, settings.top_border_no_shadow_start))
+	if (IS_CLAMPED_LAX(settings.top_border_start, y, settings.top_border_no_shadow_start))
 		regions |= BORDER_START_TOP;
 	else if (IS_CLAMPED(settings.top_border_no_shadow_start, y, settings.top_border_no_shadow_end))
 		regions |= BORDER_MIDDLE_TOP;
 	else if (IS_CLAMPED(settings.top_border_no_shadow_end, y, settings.top_border_end))
 		regions |= BORDER_END_TOP;
 
-	if (IS_CLAMPED(settings.right_border_start, x, settings.right_border_no_shadow_start))
+	if (IS_CLAMPED_LAX(settings.right_border_start, x, settings.right_border_no_shadow_start))
 		regions |= BORDER_START_RIGHT;
 	else if (IS_CLAMPED(settings.right_border_no_shadow_start, x, settings.right_border_no_shadow_end))
 		regions |= BORDER_MIDDLE_RIGHT;
 	else if (IS_CLAMPED(settings.right_border_no_shadow_end, x, settings.right_border_end))
 		regions |= BORDER_END_RIGHT;
 
-	if (IS_CLAMPED(settings.bottom_border_start, y, settings.bottom_border_no_shadow_start))
+	if (IS_CLAMPED_LAX(settings.bottom_border_start, y, settings.bottom_border_no_shadow_start))
 		regions |= BORDER_START_BOTTOM;
 	else if (IS_CLAMPED(settings.bottom_border_no_shadow_start, y, settings.bottom_border_no_shadow_end))
 		regions |= BORDER_MIDDLE_BOTTOM;
 	else if (IS_CLAMPED(settings.bottom_border_no_shadow_end, y, settings.bottom_border_end))
 		regions |= BORDER_END_BOTTOM;
 
-	if (IS_CLAMPED(settings.header_border_start, y, settings.header_border_no_shadow_start))
+	if (IS_CLAMPED_LAX(settings.header_border_start, y, settings.header_border_no_shadow_start))
 		regions |= BORDER_START_INTERNAL;
 	else if (IS_CLAMPED(settings.header_border_no_shadow_start, y, settings.header_border_no_shadow_end))
 		regions |= BORDER_MIDDLE_INTERNAL;
