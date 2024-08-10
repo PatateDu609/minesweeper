@@ -8,6 +8,8 @@ void init(void);
 void init_sprites(void);
 void init_state(t_game *game);
 void init_header(void);
+void init_freetype(void);
+void close_freetype(void);
 void free_all(void);
 
 void reset_game(t_game *game);

@@ -5,21 +5,7 @@
 
 static void init_borders(void)
 {
-	Uint32 rmask = 0xff000000;
-	Uint32 gmask = 0x00ff0000;
-	Uint32 bmask = 0x0000ff00;
-	Uint32 amask = 0x000000ff;
-
-	SDL_Surface *surface = SDL_CreateRGBSurface(
-		0,
-		minesweeper.w,
-		minesweeper.h,
-		32,
-		rmask,
-		gmask,
-		bmask,
-		amask
-	);
+	SDL_Surface *surface = create_rgb_surface(minesweeper.w, minesweeper.h);
 
 	for (int y = 0; y < minesweeper.h; y++)
 		for (int x = 0; x < minesweeper.w; x++)

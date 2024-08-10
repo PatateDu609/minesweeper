@@ -3,7 +3,6 @@
 
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
-#include <SDL_ttf.h>
 
 #include "color.h"
 
@@ -25,6 +24,7 @@ typedef struct linear_gradient
 extern const t_linear_gradient grad_ui_header;
 
 SDL_Texture *apply_grad(SDL_Renderer *renderer, SDL_Rect rect, const struct linear_gradient *grad);
+t_color apply_grad_pixel(const SDL_Rect rect, const SDL_Point pt, const struct linear_gradient *grad);
 
 
 typedef void ( free_fn )(void *);
@@ -65,7 +65,6 @@ typedef struct button
 			char *       text;
 			t_color      color;
 			free_fn *    free_text;
-			TTF_Font *   font;
 			SDL_Texture *cached_tex;
 		} text;
 	};

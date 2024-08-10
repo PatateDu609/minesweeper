@@ -22,14 +22,6 @@ static void init_SDL(void)
 		console_error("SDL_image initialization failed");
 		exit(EXIT_FAILURE);
 	}
-
-	if (!TTF_Init())
-		console_info("SDL_TTF initialization succeded");
-	else
-	{
-		console_error("SDL_TTF initialization failed");
-		exit(EXIT_FAILURE);
-	}
 }
 
 static void init_window(void)
@@ -90,6 +82,7 @@ void init(void)
 
 	minesweeper.game_rect = (SDL_Rect){.x = WIDTH_UI_BORDERS, .y = HEIGHT_UI_HEADER, .w = minesweeper.w, .h = minesweeper.h};
 
+	init_freetype();
 	init_SDL();
 	init_window();
 	init_renderer();
@@ -107,7 +100,8 @@ void free_all(void)
 
 	SDL_DestroyRenderer(minesweeper.renderer);
 	SDL_DestroyWindow(minesweeper.window);
-	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
+
+	close_freetype();
 }

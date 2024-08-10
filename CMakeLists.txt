@@ -34,6 +34,10 @@ set(SRCS
         src/initialization/init_game.c
         src/initialization/init_sprites.c
         src/initialization/initialization.c
+        src/initialization/init_header.c
+        src/initialization/init_freetype.c
+
+        src/ui/gradient.c
 
         src/draw.c
         src/loop.c
@@ -51,15 +55,16 @@ set(INCLUDE_FILES
         src/initialization/borders_utils.h
         include/ui.h
         include/color.h
-        src/initialization/init_header.c
-        src/ui/gradient.c
+        include/text.h
 )
 
 add_subdirectory(lib/logger)
 
+find_package(Freetype)
+
 add_executable(minesweeper ${SRCS} ${INCLUDE_FILES})
 target_include_directories(minesweeper PRIVATE include/)
-target_link_libraries(minesweeper PRIVATE logger SDL2::SDL2 SDL2_image SDL2_ttf)
+target_link_libraries(minesweeper PRIVATE logger SDL2::SDL2 SDL2_image SDL2_ttf Freetype::Freetype)
 
 
 add_executable(generate_tile_numbers src/generators/generate_tile_numbers.c  src/utils.c)

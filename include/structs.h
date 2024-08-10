@@ -146,7 +146,10 @@ typedef struct
 
 typedef struct
 {
-	SDL_Rect     rect;
+	SDL_Rect rect;
+	SDL_Rect title_rect;
+	SDL_Rect icon_rect;
+
 	SDL_Texture *icon;
 	SDL_Texture *title;
 	SDL_Texture *bg;

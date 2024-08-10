@@ -68,7 +68,7 @@ void save_renderer(const char *file_name, SDL_Renderer *renderer)
 	int width, height;
 
 	SDL_GetRendererOutputSize(renderer, &width, &height);
-	SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+	SDL_Surface *surface = create_rgb_surface(width, height);
 	SDL_RenderReadPixels(renderer, NULL, surface->format->format, surface->pixels, surface->pitch);
 	IMG_SavePNG(surface, file_name);
 	SDL_FreeSurface(surface);
@@ -110,7 +110,7 @@ int main()
 	const static uint32_t gmask = 0x00ff0000;
 	const static uint32_t bmask = 0x0000ff00;
 	const static uint32_t amask = 0x000000ff;
-	SDL_Surface *         res   = SDL_CreateRGBSurface(0, 512, 512, 32, rmask, gmask, bmask, amask);
+	SDL_Surface *         res   = create_rgb_surface(512, 512);
 
 	SDL_Surface *  spritesheet = IMG_Load("resources/map.png");
 	const SDL_Rect src         = {.x = 512, .y = 0, .w = 512, .h = 512};

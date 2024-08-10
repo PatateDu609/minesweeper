@@ -5,33 +5,9 @@
 
 static void draw_ui(void)
 {
-	static uint8_t is_init = 0;
-	static SDL_Rect icon_rect;
-	static SDL_Rect title_rect;
-
-	if (!is_init)
-	{
-		icon_rect.w = icon_rect.h = 28;
-		icon_rect.x = minesweeper.win_width * 0.01;
-		icon_rect.y = (HEIGHT_UI_HEADER - icon_rect.h) / 2 + icon_rect.h * 0.075;
-
-		SDL_QueryTexture(minesweeper.hdr.title, NULL, NULL, &title_rect.w, &title_rect.h);
-
-		const float ratio = (float)title_rect.w / (float)title_rect.h;
-		const float max_h = HEIGHT_UI_HEADER * 0.50f;
-		const float max_w = ratio * max_h;
-		title_rect.w = max_w >= title_rect.w ? title_rect.w : (int)max_w;
-		title_rect.h = max_h >= title_rect.h ? title_rect.h : (int)max_h;
-
-		title_rect.x = icon_rect.x + icon_rect.w + 10;
-		title_rect.y = (HEIGHT_UI_HEADER - title_rect.h) / 2 ;
-
-		is_init = 1;
-	}
-
 	SDL_RenderCopy(minesweeper.renderer, minesweeper.hdr.bg, NULL, &minesweeper.hdr.rect);
-	SDL_RenderCopy(minesweeper.renderer, minesweeper.hdr.icon, NULL, &icon_rect);
-	SDL_RenderCopy(minesweeper.renderer, minesweeper.hdr.title, NULL, &title_rect);
+	SDL_RenderCopy(minesweeper.renderer, minesweeper.hdr.icon, NULL, &minesweeper.hdr.icon_rect);
+	SDL_RenderCopy(minesweeper.renderer, minesweeper.hdr.title, NULL, &minesweeper.hdr.title_rect);
 }
 
 static void draw_borders(void)

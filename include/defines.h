@@ -1,7 +1,7 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
-#define WINDOW_TITLE "minesweeper"
+#define WINDOW_TITLE "Minesweeper"
 #define SIZE_MULTIPLIER 1
 #define HEADER (70 * SIZE_MULTIPLIER)
 #define BORDER_WIDTH (15 * SIZE_MULTIPLIER)
