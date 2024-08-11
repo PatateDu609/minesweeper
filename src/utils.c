@@ -175,3 +175,26 @@ SDL_Color get_sdl_color(t_color c)
 	ret.a = c.a;
 	return ret;
 }
+
+void draw_border(SDL_Surface *target, const uint8_t thickness, const t_color color)
+{
+	if (thickness == 0)
+		return;
+
+	const SDL_Rect rect = target->clip_rect;
+
+	for (uint8_t j = 0; j < thickness; j++)
+	{
+		for (size_t i = 0; i < rect.w; i++)
+		{
+			set_pixel(target, i, j, color);
+			set_pixel(target, i, rect.h - j - 1, color);
+		}
+
+		for (size_t i = 0; i < rect.h; i++)
+		{
+			set_pixel(target, j, i, color);
+			set_pixel(target, rect.w - j - 1, i, color);
+		}
+	}
+}

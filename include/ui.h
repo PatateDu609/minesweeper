@@ -86,4 +86,7 @@ typedef struct
 t_btn_group *new_btn_group(size_t nb_btn, size_t btn_space, size_t start_x, size_t start_y);
 void         btn_group_append(t_btn_group *btn, t_button *button);
 
+
+void draw_border(SDL_Surface *target, uint8_t thickness, t_color color);
+
 #endif //MINESWEEPER_UI_H

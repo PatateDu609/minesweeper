@@ -2,7 +2,6 @@
 #include <logger.h>
 #include <SDL_image.h>
 
-#include "defines.h"
 #include "minesweeper.h"
 #include "text.h"
 #include "utils.h"
@@ -12,7 +11,7 @@ FT_Face    ft_win_title_face;
 
 void init_freetype()
 {
-	const char *win_title_font = "resources/NotoSans.ttf";
+	const char *win_title_font = "resources/tahoma.ttf";
 
 	FT_Error error = FT_Init_FreeType(&ft_lib);
 	if (error)
@@ -95,10 +94,10 @@ static void render_glyph(SDL_Texture *bg, SDL_Surface *surface, t_color stroke, 
 
 SDL_Surface *render_title(const char *title, const t_color stroke, t_header *hdr)
 {
-	FT_Error error = FT_Set_Char_Size(
+	const FT_Error error = FT_Set_Char_Size(
 		ft_win_title_face,
 		0,
-		4.35 * 64,
+		4.5 * 64,
 		300,
 		300
 	);
@@ -108,62 +107,22 @@ SDL_Surface *render_title(const char *title, const t_color stroke, t_header *hdr
 		exit(1);
 	}
 
-	size_t w, h;
-	get_title_size(title, &w, &h);
-	FT_Matrix scale = {0x10000L, 0, 0, 0x10000L};
+	const int    x0     = hdr->icon_rect.x + hdr->icon_rect.w + 4;
+	struct text *txt    = new_text(title, ft_win_title_face);
+	const size_t height = hdr->rect.h;
 
-	float scale_ratio = 1.f;
+	txt->stroke = stroke;
 
-	const float max_size = hdr->rect.h * .75f;
-	if (max_size < h)
-	{
-		const float aspect_ratio = w / (float)h;
-		scale_ratio              = max_size / (float)h;
+	text_compute_bbox(txt);
+	const size_t width = txt->bbox.xMax - txt->bbox.xMin;
+	text_center(txt, 0, height);
+	SDL_Surface *surface = create_rgb_surface(width, height);
 
-		h = max_size;
-		w = h * aspect_ratio;
+	text_render(txt, surface, 0.35);
 
-		scale.xx *= scale_ratio;
-		scale.yy *= scale_ratio;
-	}
-
-
-	FT_Vector delta;
-	const int x0 = hdr->icon_rect.x + hdr->icon_rect.w + 4;
-	const int y0 = labs(hdr->rect.h - (int)h) / 2;
-	delta.x      = (FT_Pos)(64 * 0);
-	delta.y      = (FT_Pos)(64 * y0);
-
-	SDL_Surface *  txt      = create_rgb_surface(w, h);
-	const SDL_Rect txt_rect = txt->clip_rect;
-
-	FT_GlyphSlot slot           = ft_win_title_face->glyph;
-	size_t       height         = txt_rect.h;
-	size_t       below_baseline = 0;
-	for (size_t i = 0; title[i]; i++)
-	{
-		FT_Set_Transform(ft_win_title_face, NULL, &delta);
-
-		error = FT_Load_Char(ft_win_title_face, title[i], FT_LOAD_RENDER);
-		if (error)
-		{
-			console_error("error: FT: couldn't render current char %c: %s: %s", title[i], ft_win_title_face->family_name, FT_Error_String(error));
-			continue;
-		}
-
-		render_glyph(hdr->bg, txt, stroke, &slot->bitmap, slot->bitmap_left, h - slot->bitmap_top);
-
-		delta.x += slot->advance.x;
-		delta.y += slot->advance.y;
-		height = height < slot->bitmap.rows ? slot->bitmap.rows : height;
-
-		const size_t tmp = labs(slot->metrics.horiBearingY - slot->metrics.height) >> 6;
-		below_baseline   = below_baseline < tmp ? tmp : below_baseline;
-	}
-
-	hdr->title_rect.w = txt_rect.w;
-	hdr->title_rect.h = txt_rect.h;
+	hdr->title_rect.w = width;
+	hdr->title_rect.h = height;
 	hdr->title_rect.x = x0;
-	hdr->title_rect.y = y0 + below_baseline * scale_ratio;
-	return txt;
+	hdr->title_rect.y = (hdr->rect.h - height) / 2;
+	return surface;
 }

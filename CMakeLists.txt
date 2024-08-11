@@ -37,6 +37,9 @@ set(SRCS
         src/initialization/init_header.c
         src/initialization/init_freetype.c
 
+        src/text/text.c
+        src/text/render.c
+
         src/ui/gradient.c
 
         src/draw.c
@@ -67,6 +70,6 @@ target_include_directories(minesweeper PRIVATE include/)
 target_link_libraries(minesweeper PRIVATE logger SDL2::SDL2 SDL2_image SDL2_ttf Freetype::Freetype)
 
 
-add_executable(generate_tile_numbers src/generators/generate_tile_numbers.c  src/utils.c)
+add_executable(generate_tile_numbers src/generators/generate_tile_numbers.c src/utils.c)
 target_include_directories(generate_tile_numbers PRIVATE include/)
 target_link_libraries(generate_tile_numbers PRIVATE logger SDL2::SDL2 SDL2_image SDL2_ttf)
