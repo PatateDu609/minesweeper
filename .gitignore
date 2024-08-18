@@ -6,3 +6,4 @@ minesweeper
 
 .idea
 cmake-build-*
+/build

@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <logger.h>
 
-#include "ui.h"
+#include "ui/gradient.h"
 #include "utils.h"
 
 const t_linear_gradient grad_ui_header = {

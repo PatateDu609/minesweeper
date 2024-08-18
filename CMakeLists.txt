@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.28)
 project(minesweeper LANGUAGES C VERSION 1.0)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -save-temps=obj")
+
 include(FetchContent)
-set(FETCHCONTENT_QUIET FALSE)
+set(FETCHCONTENT_QUIET OFF)
 
 FetchContent_Declare(SDL2
         GIT_REPOSITORY https://github.com/libsdl-org/SDL
@@ -40,7 +42,10 @@ set(SRCS
         src/text/text.c
         src/text/render.c
 
+        src/ui/button.c
+        src/ui/btn_runtime.c
         src/ui/gradient.c
+        src/ui/mouse_evt.c
 
         src/draw.c
         src/loop.c
@@ -53,12 +58,17 @@ set(INCLUDE_FILES
         include/defines.h
         include/minesweeper.h
         include/structs.h
-        include/utils.h
-
-        src/initialization/borders_utils.h
-        include/ui.h
         include/color.h
         include/text.h
+        include/utils.h
+
+        include/ui/button.h
+        include/ui/gradient.h
+        include/ui/ui.decl.h
+
+        src/initialization/borders_utils.h
+        src/ui/button.h
+        src/ui/mouse_evt.h
 )
 
 add_subdirectory(lib/logger)

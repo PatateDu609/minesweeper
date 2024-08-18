@@ -1,10 +1,10 @@
-#ifndef STRUCTS_H
-#define STRUCTS_H
+#pragma once
+
+#include "ui/gradient.h"
+#include "ui/button.h"
 
 #include <stdint.h>
 #include <SDL_ttf.h>
-
-#include "ui.h"
 
 
 typedef enum
@@ -110,7 +110,8 @@ typedef struct
 
 	SDL_Texture *borders;
 
-	SDL_Texture *controls;
+	SDL_Texture *texture_controls;
+	SDL_Rect     controls[12];
 } t_sprites;
 
 
@@ -144,7 +145,7 @@ typedef struct
 } t_game;
 
 
-typedef struct
+struct header
 {
 	SDL_Rect rect;
 	SDL_Rect title_rect;
@@ -155,7 +156,10 @@ typedef struct
 	SDL_Texture *bg;
 
 	t_btn_group *controls;
-} t_header;
+};
+
+
+typedef struct header t_header;
 
 
 typedef struct
@@ -189,5 +193,3 @@ typedef struct
 		BUTTON_LEFT,
 	} clicked;
 } t_minesweeper;
-
-#endif

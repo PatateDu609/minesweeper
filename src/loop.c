@@ -31,7 +31,7 @@ static void update()
 
 void launch(void)
 {
-	SDL_Event e;
+	static SDL_Event e;
 
 	while (minesweeper.is_open)
 	{

@@ -1,5 +1,6 @@
-#ifndef MINESWEEPER_TEXT_H
-#define MINESWEEPER_TEXT_H
+#pragma once
+
+#include "ui/ui.decl.h"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -8,7 +9,6 @@
 #include <SDL_surface.h>
 
 #include "color.h"
-#include "structs.h"
 
 
 extern FT_Library ft_lib;
@@ -41,12 +41,12 @@ struct text
 };
 
 
-SDL_Surface *render_title(const char *title, t_color stroke, t_header *hdr);
+struct header;
+
+SDL_Surface *render_title(const char *title, t_color stroke, struct header *hdr);
 
 struct text *new_text(const char *raw, FT_Face font);
 void         text_compute_bbox(struct text *txt);
 void         text_render(const struct text *txt, SDL_Surface *target, double boldness);
 void         text_center(struct text *txt, size_t width, size_t height);
 void         free_text(struct text *txt);
-
-#endif //MINESWEEPER_TEXT_H

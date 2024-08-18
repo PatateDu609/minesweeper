@@ -1,10 +1,10 @@
-#ifndef UTILS_H
-#define UTILS_H
+#pragma once
+
+#include "structs.h"
 
 #include <string.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
-#include "structs.h"
 
 uint32_t *       sort(uint32_t *arr, int len);
 char *           strjoin(const char *, const char *);
@@ -15,5 +15,3 @@ t_color          over_op(t_color bg, t_color fg);
 SDL_Color        get_sdl_color(t_color c);
 SDL_Surface *    create_rgb_surface(size_t width, size_t height);
 t_color          get_color(int r, int g, int b, int a);
-
-#endif

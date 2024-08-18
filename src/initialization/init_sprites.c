@@ -69,4 +69,12 @@ void init_sprites(void)
 		512,
 		512
 	);
+	load_spritesheet(
+		&minesweeper.sprites.texture_controls,
+		minesweeper.sprites.controls,
+		12, // number of control button * number of state
+		"resources/controls.png",
+		527,
+		527
+	);
 }

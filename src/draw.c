@@ -8,6 +8,8 @@ static void draw_ui(void)
 	SDL_RenderCopy(minesweeper.renderer, minesweeper.hdr.bg, NULL, &minesweeper.hdr.rect);
 	SDL_RenderCopy(minesweeper.renderer, minesweeper.hdr.icon, NULL, &minesweeper.hdr.icon_rect);
 	SDL_RenderCopy(minesweeper.renderer, minesweeper.hdr.title, NULL, &minesweeper.hdr.title_rect);
+
+//	btn_group_render(minesweeper.renderer, minesweeper.hdr.controls);
 }
 
 static void draw_borders(void)
@@ -74,7 +76,13 @@ static void draw_header(void)
 	rect.w = minesweeper.w;
 	rect.h = HEADER + (int)(BORDER_WIDTH * 1.1f);
 
-	SDL_SetRenderDrawColor(minesweeper.renderer, minesweeper.game_hdr_color.r, minesweeper.game_hdr_color.g, minesweeper.game_hdr_color.b, minesweeper.game_hdr_color.a);
+	SDL_SetRenderDrawColor(
+		minesweeper.renderer,
+		minesweeper.game_hdr_color.r,
+		minesweeper.game_hdr_color.g,
+		minesweeper.game_hdr_color.b,
+		minesweeper.game_hdr_color.a
+	);
 	SDL_RenderFillRect(minesweeper.renderer, &rect);
 
 	draw_digits_header(3, minesweeper.game.remaining_mines, 0);

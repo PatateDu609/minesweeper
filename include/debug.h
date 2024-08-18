@@ -1,12 +1,10 @@
-#ifndef DEBUG_H
-#define DEBUG_H
+#pragma once
+
+#include "utils.h"
 
 #include <logger.h>
 #include <string.h>
-#include "utils.h"
 
 void print_mines();
 
 void print_field();
-
-#endif

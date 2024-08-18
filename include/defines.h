@@ -1,5 +1,4 @@
-#ifndef DEFINES_H
-#define DEFINES_H
+#pragma once
 
 #define WINDOW_TITLE "Minesweeper"
 #define SIZE_MULTIPLIER 1
@@ -14,5 +13,3 @@
 
 #define IS_CLAMPED(min, x, max) ((min) < (x) && (x) <= (max))
 #define IS_CLAMPED_LAX(min, x, max) ((min) <= (x) && (x) <= (max))
-
-#endif

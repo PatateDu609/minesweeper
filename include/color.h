@@ -1,19 +1,18 @@
-#ifndef MINESWEEPER_COLOR_H
-#define MINESWEEPER_COLOR_H
+#pragma once
+
+#include <stdint.h>
+
 
 typedef union u_color
 {
-	Uint32 raw;
+	uint32_t raw;
 
 
 	struct
 	{
-		unsigned char a;
-		unsigned char b;
-		unsigned char g;
-		unsigned char r;
+		uint8_t a;
+		uint8_t b;
+		uint8_t g;
+		uint8_t r;
 	};
 } t_color;
-
-
-#endif //MINESWEEPER_COLOR_H

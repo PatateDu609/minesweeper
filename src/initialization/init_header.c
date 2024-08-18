@@ -24,10 +24,38 @@ static SDL_Texture *get_icon()
 	return tex;
 }
 
+static t_btn_group *init_controls()
+{
+	static const size_t btn_space = 5;
+	static const size_t nb_btns   = 3;
+	static const size_t btn_sz    = .7f * HEIGHT_UI_HEADER;
+
+	size_t x = minesweeper.win_width;
+	x -= nb_btns * (btn_sz + btn_space);
+	t_btn_group *controls = new_btn_group(nb_btns, btn_space, x, 5);
+
+	SDL_Texture *   spritesheet = minesweeper.sprites.texture_controls;
+	const SDL_Rect *srcs        = minesweeper.sprites.controls;
+
+	SDL_Rect dst = {};
+	dst.w        = btn_sz;
+	dst.h        = btn_sz;
+
+	const t_button close    = new_icon_btn(spritesheet, NULL, srcs[0], dst);
+	const t_button minimize = new_icon_btn(spritesheet, NULL, srcs[1], dst);
+	const t_button maximize = new_icon_btn(spritesheet, NULL, srcs[2], dst);
+
+	btn_group_append(controls, minimize);
+	btn_group_append(controls, maximize);
+	btn_group_append(controls, close);
+
+	return controls;
+}
+
 
 void init_header(void)
 {
-	t_header hdr = {};
+	t_header hdr;
 
 	hdr.rect.x = hdr.rect.y = 0;
 	hdr.rect.w = minesweeper.win_width;
@@ -38,8 +66,10 @@ void init_header(void)
 	hdr.icon_rect.x = minesweeper.win_width * 0.01;
 	hdr.icon_rect.y = (HEIGHT_UI_HEADER - hdr.icon_rect.h) / 2 + hdr.icon_rect.h * 0.075;
 
-	hdr.icon = get_icon();
+	hdr.icon  = get_icon();
 	hdr.title = get_window_title(&hdr);
+
+	hdr.controls = init_controls();
 
 	minesweeper.hdr = hdr;
 }

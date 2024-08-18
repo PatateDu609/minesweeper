@@ -1,0 +1,69 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 28
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "binaryDir": "build/${presetName}",
+      "generator": "Ninja",
+      "hidden": true
+    },
+    {
+      "name": "debug",
+      "binaryDir": "build/debug/${presetName}",
+      "inherits": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "binaryDir": "build/release/${presetName}",
+      "inherits": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "default",
+      "displayName": "Default Debug",
+      "description": "Default configure target, in debug mode",
+      "inherits": "debug"
+    },
+    {
+      "name": "default-release",
+      "displayName": "Default Release",
+      "description": "Default configure target, in release mode",
+      "inherits": "release"
+    },
+    {
+      "name": "debug-xcode",
+      "displayName": "Xcode Debug",
+      "description": "Xcode generated project for debug purposes",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      },
+      "inherits": "debug",
+      "generator": "Xcode"
+    },
+    {
+      "name": "release-xcode",
+      "displayName": "Xcode Release",
+      "description": "Xcode generated project",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      },
+      "inherits": "release",
+      "generator": "Xcode"
+    }
+  ]
+}
